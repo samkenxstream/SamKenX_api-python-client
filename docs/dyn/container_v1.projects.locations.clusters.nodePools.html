@@ -198,7 +198,7 @@ Args:
       &quot;gvnic&quot;: { # Configuration of gVNIC feature. # Enable or disable gvnic in the node pool.
         &quot;enabled&quot;: True or False, # Whether gVNIC features are enabled in the node pool.
       },
-      &quot;imageType&quot;: &quot;A String&quot;, # The image type to use for this node. Note that for a given image type, the latest version of it will be used.
+      &quot;imageType&quot;: &quot;A String&quot;, # The image type to use for this node. Note that for a given image type, the latest version of it will be used. Please see https://cloud.google.com/kubernetes-engine/docs/concepts/node-images for available image types.
       &quot;kubeletConfig&quot;: { # Node kubelet configs. # Node kubelet configs.
         &quot;cpuCfsQuota&quot;: True or False, # Enable CPU CFS quota enforcement for containers that specify CPU limits. This option is enabled by default which makes kubelet use CFS quota (https://www.kernel.org/doc/Documentation/scheduler/sched-bwc.txt) to enforce container CPU limits. Otherwise, CPU limits will not be enforced at all. Disable this option to mitigate CPU throttling problems while still having your pods to be in Guaranteed QoS class by specifying the CPU limits. The default value is &#x27;true&#x27; if unspecified.
         &quot;cpuCfsQuotaPeriod&quot;: &quot;A String&quot;, # Set the CPU CFS quota period value &#x27;cpu.cfs_period_us&#x27;. The string must be a sequence of decimal numbers, each with optional fraction and a unit suffix, such as &quot;300ms&quot;. Valid time units are &quot;ns&quot;, &quot;us&quot; (or &quot;µs&quot;), &quot;ms&quot;, &quot;s&quot;, &quot;m&quot;, &quot;h&quot;. The value must be a positive duration.
@@ -331,7 +331,7 @@ Args:
       &quot;maxUnavailable&quot;: 42, # The maximum number of nodes that can be simultaneously unavailable during the upgrade process. A node is considered available if its status is Ready.
       &quot;strategy&quot;: &quot;A String&quot;, # Update strategy of the node pool.
     },
-    &quot;version&quot;: &quot;A String&quot;, # The version of the Kubernetes of this node.
+    &quot;version&quot;: &quot;A String&quot;, # The version of Kubernetes running on this NodePool&#x27;s nodes. If unspecified, it defaults as described [here](https://cloud.google.com/kubernetes-engine/versioning#specifying_node_version).
   },
   &quot;parent&quot;: &quot;A String&quot;, # The parent (project, location, cluster name) where the node pool will be created. Specified in the format `projects/*/locations/*/clusters/*`.
   &quot;projectId&quot;: &quot;A String&quot;, # Deprecated. The Google Developers Console [project ID or project number](https://cloud.google.com/resource-manager/docs/creating-managing-projects). This field has been deprecated and replaced by the parent field.
@@ -538,7 +538,7 @@ Returns:
     &quot;gvnic&quot;: { # Configuration of gVNIC feature. # Enable or disable gvnic in the node pool.
       &quot;enabled&quot;: True or False, # Whether gVNIC features are enabled in the node pool.
     },
-    &quot;imageType&quot;: &quot;A String&quot;, # The image type to use for this node. Note that for a given image type, the latest version of it will be used.
+    &quot;imageType&quot;: &quot;A String&quot;, # The image type to use for this node. Note that for a given image type, the latest version of it will be used. Please see https://cloud.google.com/kubernetes-engine/docs/concepts/node-images for available image types.
     &quot;kubeletConfig&quot;: { # Node kubelet configs. # Node kubelet configs.
       &quot;cpuCfsQuota&quot;: True or False, # Enable CPU CFS quota enforcement for containers that specify CPU limits. This option is enabled by default which makes kubelet use CFS quota (https://www.kernel.org/doc/Documentation/scheduler/sched-bwc.txt) to enforce container CPU limits. Otherwise, CPU limits will not be enforced at all. Disable this option to mitigate CPU throttling problems while still having your pods to be in Guaranteed QoS class by specifying the CPU limits. The default value is &#x27;true&#x27; if unspecified.
       &quot;cpuCfsQuotaPeriod&quot;: &quot;A String&quot;, # Set the CPU CFS quota period value &#x27;cpu.cfs_period_us&#x27;. The string must be a sequence of decimal numbers, each with optional fraction and a unit suffix, such as &quot;300ms&quot;. Valid time units are &quot;ns&quot;, &quot;us&quot; (or &quot;µs&quot;), &quot;ms&quot;, &quot;s&quot;, &quot;m&quot;, &quot;h&quot;. The value must be a positive duration.
@@ -671,7 +671,7 @@ Returns:
     &quot;maxUnavailable&quot;: 42, # The maximum number of nodes that can be simultaneously unavailable during the upgrade process. A node is considered available if its status is Ready.
     &quot;strategy&quot;: &quot;A String&quot;, # Update strategy of the node pool.
   },
-  &quot;version&quot;: &quot;A String&quot;, # The version of the Kubernetes of this node.
+  &quot;version&quot;: &quot;A String&quot;, # The version of Kubernetes running on this NodePool&#x27;s nodes. If unspecified, it defaults as described [here](https://cloud.google.com/kubernetes-engine/versioning#specifying_node_version).
 }</pre>
 </div>
 
@@ -744,7 +744,7 @@ Returns:
         &quot;gvnic&quot;: { # Configuration of gVNIC feature. # Enable or disable gvnic in the node pool.
           &quot;enabled&quot;: True or False, # Whether gVNIC features are enabled in the node pool.
         },
-        &quot;imageType&quot;: &quot;A String&quot;, # The image type to use for this node. Note that for a given image type, the latest version of it will be used.
+        &quot;imageType&quot;: &quot;A String&quot;, # The image type to use for this node. Note that for a given image type, the latest version of it will be used. Please see https://cloud.google.com/kubernetes-engine/docs/concepts/node-images for available image types.
         &quot;kubeletConfig&quot;: { # Node kubelet configs. # Node kubelet configs.
           &quot;cpuCfsQuota&quot;: True or False, # Enable CPU CFS quota enforcement for containers that specify CPU limits. This option is enabled by default which makes kubelet use CFS quota (https://www.kernel.org/doc/Documentation/scheduler/sched-bwc.txt) to enforce container CPU limits. Otherwise, CPU limits will not be enforced at all. Disable this option to mitigate CPU throttling problems while still having your pods to be in Guaranteed QoS class by specifying the CPU limits. The default value is &#x27;true&#x27; if unspecified.
           &quot;cpuCfsQuotaPeriod&quot;: &quot;A String&quot;, # Set the CPU CFS quota period value &#x27;cpu.cfs_period_us&#x27;. The string must be a sequence of decimal numbers, each with optional fraction and a unit suffix, such as &quot;300ms&quot;. Valid time units are &quot;ns&quot;, &quot;us&quot; (or &quot;µs&quot;), &quot;ms&quot;, &quot;s&quot;, &quot;m&quot;, &quot;h&quot;. The value must be a positive duration.
@@ -877,7 +877,7 @@ Returns:
         &quot;maxUnavailable&quot;: 42, # The maximum number of nodes that can be simultaneously unavailable during the upgrade process. A node is considered available if its status is Ready.
         &quot;strategy&quot;: &quot;A String&quot;, # Update strategy of the node pool.
       },
-      &quot;version&quot;: &quot;A String&quot;, # The version of the Kubernetes of this node.
+      &quot;version&quot;: &quot;A String&quot;, # The version of Kubernetes running on this NodePool&#x27;s nodes. If unspecified, it defaults as described [here](https://cloud.google.com/kubernetes-engine/versioning#specifying_node_version).
     },
   ],
 }</pre>
@@ -1238,7 +1238,7 @@ Args:
   &quot;gvnic&quot;: { # Configuration of gVNIC feature. # Enable or disable gvnic on the node pool.
     &quot;enabled&quot;: True or False, # Whether gVNIC features are enabled in the node pool.
   },
-  &quot;imageType&quot;: &quot;A String&quot;, # Required. The desired image type for the node pool.
+  &quot;imageType&quot;: &quot;A String&quot;, # Required. The desired image type for the node pool. Please see https://cloud.google.com/kubernetes-engine/docs/concepts/node-images for available image types.
   &quot;kubeletConfig&quot;: { # Node kubelet configs. # Node kubelet configs.
     &quot;cpuCfsQuota&quot;: True or False, # Enable CPU CFS quota enforcement for containers that specify CPU limits. This option is enabled by default which makes kubelet use CFS quota (https://www.kernel.org/doc/Documentation/scheduler/sched-bwc.txt) to enforce container CPU limits. Otherwise, CPU limits will not be enforced at all. Disable this option to mitigate CPU throttling problems while still having your pods to be in Guaranteed QoS class by specifying the CPU limits. The default value is &#x27;true&#x27; if unspecified.
     &quot;cpuCfsQuotaPeriod&quot;: &quot;A String&quot;, # Set the CPU CFS quota period value &#x27;cpu.cfs_period_us&#x27;. The string must be a sequence of decimal numbers, each with optional fraction and a unit suffix, such as &quot;300ms&quot;. Valid time units are &quot;ns&quot;, &quot;us&quot; (or &quot;µs&quot;), &quot;ms&quot;, &quot;s&quot;, &quot;m&quot;, &quot;h&quot;. The value must be a positive duration.

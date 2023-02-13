@@ -405,6 +405,14 @@ Args:
       },
     },
   ],
+  &quot;singleUseTransaction&quot;: { # Options for beginning a new transaction. Transactions can be created explicitly with calls to Datastore.BeginTransaction or implicitly by setting ReadOptions.new_transaction in read requests. # Options for beginning a new transaction for this request. The transaction is committed when the request completes. If specified, TransactionOptions.mode must be TransactionOptions.ReadWrite.
+    &quot;readOnly&quot;: { # Options specific to read-only transactions. # The transaction should only allow reads.
+      &quot;readTime&quot;: &quot;A String&quot;, # Reads entities at the given time. This may not be older than 60 seconds.
+    },
+    &quot;readWrite&quot;: { # Options specific to read / write transactions. # The transaction should allow both reads and writes.
+      &quot;previousTransaction&quot;: &quot;A String&quot;, # The transaction identifier of the transaction being retried.
+    },
+  },
   &quot;transaction&quot;: &quot;A String&quot;, # The identifier of the transaction associated with the commit. A transaction identifier is returned by a call to Datastore.BeginTransaction.
 }
 
@@ -578,6 +586,14 @@ Args:
     },
   ],
   &quot;readOptions&quot;: { # The options shared by read requests. # The options for this lookup request.
+    &quot;newTransaction&quot;: { # Options for beginning a new transaction. Transactions can be created explicitly with calls to Datastore.BeginTransaction or implicitly by setting ReadOptions.new_transaction in read requests. # Options for beginning a new transaction for this request. The new transaction identifier will be returned in the corresponding response as either LookupResponse.transaction or RunQueryResponse.transaction.
+      &quot;readOnly&quot;: { # Options specific to read-only transactions. # The transaction should only allow reads.
+        &quot;readTime&quot;: &quot;A String&quot;, # Reads entities at the given time. This may not be older than 60 seconds.
+      },
+      &quot;readWrite&quot;: { # Options specific to read / write transactions. # The transaction should allow both reads and writes.
+        &quot;previousTransaction&quot;: &quot;A String&quot;, # The transaction identifier of the transaction being retried.
+      },
+    },
     &quot;readConsistency&quot;: &quot;A String&quot;, # The non-transactional read consistency to use.
     &quot;readTime&quot;: &quot;A String&quot;, # Reads entities as they were at the given time. This may not be older than 270 seconds. This value is only supported for Cloud Firestore in Datastore mode.
     &quot;transaction&quot;: &quot;A String&quot;, # The identifier of the transaction in which to read. A transaction identifier is returned by a call to Datastore.BeginTransaction.
@@ -732,6 +748,7 @@ Returns:
     },
   ],
   &quot;readTime&quot;: &quot;A String&quot;, # The time at which these entities were read or found missing.
+  &quot;transaction&quot;: &quot;A String&quot;, # The identifier of the transaction that was started as part of this Lookup request. Set only when ReadOptions.new_transaction was set in LookupRequest.read_options.
 }</pre>
 </div>
 
@@ -993,6 +1010,14 @@ Args:
     &quot;projectId&quot;: &quot;A String&quot;, # The ID of the project to which the entities belong.
   },
   &quot;readOptions&quot;: { # The options shared by read requests. # The options for this query.
+    &quot;newTransaction&quot;: { # Options for beginning a new transaction. Transactions can be created explicitly with calls to Datastore.BeginTransaction or implicitly by setting ReadOptions.new_transaction in read requests. # Options for beginning a new transaction for this request. The new transaction identifier will be returned in the corresponding response as either LookupResponse.transaction or RunQueryResponse.transaction.
+      &quot;readOnly&quot;: { # Options specific to read-only transactions. # The transaction should only allow reads.
+        &quot;readTime&quot;: &quot;A String&quot;, # Reads entities at the given time. This may not be older than 60 seconds.
+      },
+      &quot;readWrite&quot;: { # Options specific to read / write transactions. # The transaction should allow both reads and writes.
+        &quot;previousTransaction&quot;: &quot;A String&quot;, # The transaction identifier of the transaction being retried.
+      },
+    },
     &quot;readConsistency&quot;: &quot;A String&quot;, # The non-transactional read consistency to use.
     &quot;readTime&quot;: &quot;A String&quot;, # Reads entities as they were at the given time. This may not be older than 270 seconds. This value is only supported for Cloud Firestore in Datastore mode.
     &quot;transaction&quot;: &quot;A String&quot;, # The identifier of the transaction in which to read. A transaction identifier is returned by a call to Datastore.BeginTransaction.
@@ -1143,6 +1168,7 @@ Returns:
       &quot;startCursor&quot;: &quot;A String&quot;, # A starting point for the query results. Query cursors are returned in query result batches and [can only be used to continue the same query](https://cloud.google.com/datastore/docs/concepts/queries#cursors_limits_and_offsets).
     },
   },
+  &quot;transaction&quot;: &quot;A String&quot;, # The identifier of the transaction that was started as part of this RunAggregationQuery request. Set only when ReadOptions.new_transaction was set in RunAggregationQueryRequest.read_options.
 }</pre>
 </div>
 
@@ -1327,6 +1353,14 @@ Args:
     &quot;startCursor&quot;: &quot;A String&quot;, # A starting point for the query results. Query cursors are returned in query result batches and [can only be used to continue the same query](https://cloud.google.com/datastore/docs/concepts/queries#cursors_limits_and_offsets).
   },
   &quot;readOptions&quot;: { # The options shared by read requests. # The options for this query.
+    &quot;newTransaction&quot;: { # Options for beginning a new transaction. Transactions can be created explicitly with calls to Datastore.BeginTransaction or implicitly by setting ReadOptions.new_transaction in read requests. # Options for beginning a new transaction for this request. The new transaction identifier will be returned in the corresponding response as either LookupResponse.transaction or RunQueryResponse.transaction.
+      &quot;readOnly&quot;: { # Options specific to read-only transactions. # The transaction should only allow reads.
+        &quot;readTime&quot;: &quot;A String&quot;, # Reads entities at the given time. This may not be older than 60 seconds.
+      },
+      &quot;readWrite&quot;: { # Options specific to read / write transactions. # The transaction should allow both reads and writes.
+        &quot;previousTransaction&quot;: &quot;A String&quot;, # The transaction identifier of the transaction being retried.
+      },
+    },
     &quot;readConsistency&quot;: &quot;A String&quot;, # The non-transactional read consistency to use.
     &quot;readTime&quot;: &quot;A String&quot;, # Reads entities as they were at the given time. This may not be older than 270 seconds. This value is only supported for Cloud Firestore in Datastore mode.
     &quot;transaction&quot;: &quot;A String&quot;, # The identifier of the transaction in which to read. A transaction identifier is returned by a call to Datastore.BeginTransaction.
@@ -1492,6 +1526,7 @@ Returns:
     ],
     &quot;startCursor&quot;: &quot;A String&quot;, # A starting point for the query results. Query cursors are returned in query result batches and [can only be used to continue the same query](https://cloud.google.com/datastore/docs/concepts/queries#cursors_limits_and_offsets).
   },
+  &quot;transaction&quot;: &quot;A String&quot;, # The identifier of the transaction that was started as part of this RunQuery request. Set only when ReadOptions.new_transaction was set in RunQueryRequest.read_options.
 }</pre>
 </div>
 

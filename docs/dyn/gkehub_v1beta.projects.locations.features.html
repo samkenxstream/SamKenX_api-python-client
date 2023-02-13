@@ -122,6 +122,42 @@ Args:
 { # Feature represents the settings and status of any Hub Feature.
   &quot;createTime&quot;: &quot;A String&quot;, # Output only. When the Feature resource was created.
   &quot;deleteTime&quot;: &quot;A String&quot;, # Output only. When the Feature resource was deleted.
+  &quot;fleetDefaultMemberConfig&quot;: { # CommonFleetDefaultMemberConfigSpec contains default configuration information for memberships of a fleet # Optional. Feature configuration applicable to all memberships of the fleet.
+    &quot;identityservice&quot;: { # **Anthos Identity Service**: Configuration for a single Membership. # Identity Service-specific spec.
+      &quot;authMethods&quot;: [ # A member may support multiple auth methods.
+        { # Configuration of an auth method for a member/cluster. Only one authentication method (e.g., OIDC and LDAP) can be set per AuthMethod.
+          &quot;azureadConfig&quot;: { # Configuration for the AzureAD Auth flow. # AzureAD specific Configuration.
+            &quot;clientId&quot;: &quot;A String&quot;, # ID for the registered client application that makes authentication requests to the Azure AD identity provider.
+            &quot;clientSecret&quot;: &quot;A String&quot;, # Input only. Unencrypted AzureAD client secret will be passed to the GKE Hub CLH.
+            &quot;encryptedClientSecret&quot;: &quot;A String&quot;, # Output only. Encrypted AzureAD client secret.
+            &quot;kubectlRedirectUri&quot;: &quot;A String&quot;, # The redirect URL that kubectl uses for authorization.
+            &quot;tenant&quot;: &quot;A String&quot;, # Kind of Azure AD account to be authenticated. Supported values are or for accounts belonging to a specific tenant.
+          },
+          &quot;googleConfig&quot;: { # Configuration for the Google Plugin Auth flow. # GoogleConfig specific configuration
+            &quot;disable&quot;: True or False, # Disable automatic configuration of Google Plugin on supported platforms.
+          },
+          &quot;name&quot;: &quot;A String&quot;, # Identifier for auth config.
+          &quot;oidcConfig&quot;: { # Configuration for OIDC Auth flow. # OIDC specific configuration.
+            &quot;certificateAuthorityData&quot;: &quot;A String&quot;, # PEM-encoded CA for OIDC provider.
+            &quot;clientId&quot;: &quot;A String&quot;, # ID for OIDC client application.
+            &quot;clientSecret&quot;: &quot;A String&quot;, # Input only. Unencrypted OIDC client secret will be passed to the GKE Hub CLH.
+            &quot;deployCloudConsoleProxy&quot;: True or False, # Flag to denote if reverse proxy is used to connect to auth provider. This flag should be set to true when provider is not reachable by Google Cloud Console.
+            &quot;enableAccessToken&quot;: True or False, # Enable access token.
+            &quot;encryptedClientSecret&quot;: &quot;A String&quot;, # Output only. Encrypted OIDC Client secret
+            &quot;extraParams&quot;: &quot;A String&quot;, # Comma-separated list of key-value pairs.
+            &quot;groupPrefix&quot;: &quot;A String&quot;, # Prefix to prepend to group name.
+            &quot;groupsClaim&quot;: &quot;A String&quot;, # Claim in OIDC ID token that holds group information.
+            &quot;issuerUri&quot;: &quot;A String&quot;, # URI for the OIDC provider. This should point to the level below .well-known/openid-configuration.
+            &quot;kubectlRedirectUri&quot;: &quot;A String&quot;, # Registered redirect uri to redirect users going through OAuth flow using kubectl plugin.
+            &quot;scopes&quot;: &quot;A String&quot;, # Comma-separated list of identifiers.
+            &quot;userClaim&quot;: &quot;A String&quot;, # Claim in OIDC ID token that holds username.
+            &quot;userPrefix&quot;: &quot;A String&quot;, # Prefix to prepend to user name.
+          },
+          &quot;proxy&quot;: &quot;A String&quot;, # Proxy server address to use for auth method.
+        },
+      ],
+    },
+  },
   &quot;labels&quot;: { # GCP labels for this Feature.
     &quot;a_key&quot;: &quot;A String&quot;,
   },
@@ -230,6 +266,23 @@ Args:
       &quot;policycontroller&quot;: { # **Policy Controller**: Configuration for a single cluster. Intended to parallel the PolicyController CR. # Policy Controller spec.
         &quot;policyControllerHubConfig&quot;: { # Configuration for Policy Controller # Policy Controller configuration for the cluster.
           &quot;auditIntervalSeconds&quot;: &quot;A String&quot;, # Sets the interval for Policy Controller Audit Scans (in seconds). When set to 0, this disables audit functionality altogether.
+          &quot;constraintViolationLimit&quot;: &quot;A String&quot;, # The maximum number of audit violations to be stored in a constraint. If not set, the internal default (currently 20) will be used.
+          &quot;deploymentConfigs&quot;: { # Map of deployment configs to deployments (“admission”, “audit”, “mutation”).
+            &quot;a_key&quot;: { # Deployment-specific configuration.
+              &quot;containerResources&quot;: { # ResourceRequirements describes the compute resource requirements. # Container resource requirements.
+                &quot;limits&quot;: { # ResourceList contains container resource requirements. # Limits describes the maximum amount of compute resources allowed for use by the running container.
+                  &quot;cpu&quot;: &quot;A String&quot;, # CPU requirement expressed in Kubernetes resource units.
+                  &quot;memory&quot;: &quot;A String&quot;, # Memory requirement expressed in Kubernetes resource units.
+                },
+                &quot;requests&quot;: { # ResourceList contains container resource requirements. # Requests describes the amount of compute resources reserved for the container by the kube-scheduler.
+                  &quot;cpu&quot;: &quot;A String&quot;, # CPU requirement expressed in Kubernetes resource units.
+                  &quot;memory&quot;: &quot;A String&quot;, # Memory requirement expressed in Kubernetes resource units.
+                },
+              },
+              &quot;podAntiAffinity&quot;: True or False, # Pod anti-affinity enablement.
+              &quot;replicaCount&quot;: &quot;A String&quot;, # Pod replica count.
+            },
+          },
           &quot;exemptableNamespaces&quot;: [ # The set of namespaces that are excluded from Policy Controller checks. Namespaces do not need to currently exist on the cluster.
             &quot;A String&quot;,
           ],
@@ -241,6 +294,16 @@ Args:
             ],
           },
           &quot;mutationEnabled&quot;: True or False, # Enables the ability to mutate resources using Policy Controller.
+          &quot;policyContent&quot;: { # PolicyContentSpec defines the user&#x27;s desired content configuration on the cluster. # Specifies the desired policy content on the cluster
+            &quot;bundles&quot;: { # map of bundle name to BundleInstallSpec. The bundle name maps to the `bundleName` key in the `policycontroller.gke.io/constraintData` annotation on a constraint.
+              &quot;a_key&quot;: { # BundleInstallSpec is the specification configuration for a single managed bundle.
+                &quot;exemptedNamespaces&quot;: [ # the set of namespaces to be exempted from the bundle
+                  &quot;A String&quot;,
+                ],
+                &quot;management&quot;: &quot;A String&quot;, # Management specifies how the bundle will be managed by the controller.
+              },
+            },
+          },
           &quot;referentialRulesEnabled&quot;: True or False, # Enables the ability to use Constraint Templates that reference to objects other than the object currently being evaluated.
           &quot;templateLibraryConfig&quot;: { # The config specifying which default library templates to install. # Configures the library templates to install along with Policy Controller.
             &quot;included&quot;: True or False, # Whether the standard template library should be installed or not.
@@ -387,6 +450,9 @@ Args:
             &quot;gatekeeperControllerManagerState&quot;: &quot;A String&quot;, # Status of gatekeeper-controller-manager pod.
             &quot;gatekeeperMutation&quot;: &quot;A String&quot;, # Status of the pod serving the mutation webhook.
           },
+          &quot;migration&quot;: { # State for the migration of PolicyController from ACM -&gt; PoCo Hub. # Record state of ACM -&gt; PoCo Hub migration for this feature.
+            &quot;stage&quot;: &quot;A String&quot;, # Stage of the migration.
+          },
           &quot;version&quot;: { # The build version of Gatekeeper Policy Controller is using. # The version of Gatekeeper Policy Controller deployed.
             &quot;version&quot;: &quot;A String&quot;, # The gatekeeper image tag that is composed of ACM version, git tag, build number.
           },
@@ -438,7 +504,13 @@ Args:
         &quot;preciseLastMeasuredClusterVcpuCapacity&quot;: 3.14, # The vCPUs capacity in the cluster according to the most recent measurement (1/1000 precision).
       },
       &quot;policycontroller&quot;: { # **Policy Controller**: State for a single cluster. # Policycontroller-specific state.
-        &quot;componentStates&quot;: { # Currently these include (also serving as map keys): 1. &quot;admission&quot; 2. &quot;audit&quot; 3. &quot;mutation&quot; 4. &quot;constraint template library&quot;
+        &quot;componentStates&quot;: { # Currently these include (also serving as map keys): 1. &quot;admission&quot; 2. &quot;audit&quot; 3. &quot;mutation&quot;
+          &quot;a_key&quot;: { # OnClusterState represents the state of a sub-component of Policy Controller.
+            &quot;details&quot;: &quot;A String&quot;, # Surface potential errors or information logs.
+            &quot;state&quot;: &quot;A String&quot;, # The lifecycle state of this component.
+          },
+        },
+        &quot;contentStates&quot;: { # The state of the template library and any bundles included in the chosen version of the manifest
           &quot;a_key&quot;: { # OnClusterState represents the state of a sub-component of Policy Controller.
             &quot;details&quot;: &quot;A String&quot;, # Surface potential errors or information logs.
             &quot;state&quot;: &quot;A String&quot;, # The lifecycle state of this component.
@@ -610,6 +682,42 @@ Returns:
     { # Feature represents the settings and status of any Hub Feature.
   &quot;createTime&quot;: &quot;A String&quot;, # Output only. When the Feature resource was created.
   &quot;deleteTime&quot;: &quot;A String&quot;, # Output only. When the Feature resource was deleted.
+  &quot;fleetDefaultMemberConfig&quot;: { # CommonFleetDefaultMemberConfigSpec contains default configuration information for memberships of a fleet # Optional. Feature configuration applicable to all memberships of the fleet.
+    &quot;identityservice&quot;: { # **Anthos Identity Service**: Configuration for a single Membership. # Identity Service-specific spec.
+      &quot;authMethods&quot;: [ # A member may support multiple auth methods.
+        { # Configuration of an auth method for a member/cluster. Only one authentication method (e.g., OIDC and LDAP) can be set per AuthMethod.
+          &quot;azureadConfig&quot;: { # Configuration for the AzureAD Auth flow. # AzureAD specific Configuration.
+            &quot;clientId&quot;: &quot;A String&quot;, # ID for the registered client application that makes authentication requests to the Azure AD identity provider.
+            &quot;clientSecret&quot;: &quot;A String&quot;, # Input only. Unencrypted AzureAD client secret will be passed to the GKE Hub CLH.
+            &quot;encryptedClientSecret&quot;: &quot;A String&quot;, # Output only. Encrypted AzureAD client secret.
+            &quot;kubectlRedirectUri&quot;: &quot;A String&quot;, # The redirect URL that kubectl uses for authorization.
+            &quot;tenant&quot;: &quot;A String&quot;, # Kind of Azure AD account to be authenticated. Supported values are or for accounts belonging to a specific tenant.
+          },
+          &quot;googleConfig&quot;: { # Configuration for the Google Plugin Auth flow. # GoogleConfig specific configuration
+            &quot;disable&quot;: True or False, # Disable automatic configuration of Google Plugin on supported platforms.
+          },
+          &quot;name&quot;: &quot;A String&quot;, # Identifier for auth config.
+          &quot;oidcConfig&quot;: { # Configuration for OIDC Auth flow. # OIDC specific configuration.
+            &quot;certificateAuthorityData&quot;: &quot;A String&quot;, # PEM-encoded CA for OIDC provider.
+            &quot;clientId&quot;: &quot;A String&quot;, # ID for OIDC client application.
+            &quot;clientSecret&quot;: &quot;A String&quot;, # Input only. Unencrypted OIDC client secret will be passed to the GKE Hub CLH.
+            &quot;deployCloudConsoleProxy&quot;: True or False, # Flag to denote if reverse proxy is used to connect to auth provider. This flag should be set to true when provider is not reachable by Google Cloud Console.
+            &quot;enableAccessToken&quot;: True or False, # Enable access token.
+            &quot;encryptedClientSecret&quot;: &quot;A String&quot;, # Output only. Encrypted OIDC Client secret
+            &quot;extraParams&quot;: &quot;A String&quot;, # Comma-separated list of key-value pairs.
+            &quot;groupPrefix&quot;: &quot;A String&quot;, # Prefix to prepend to group name.
+            &quot;groupsClaim&quot;: &quot;A String&quot;, # Claim in OIDC ID token that holds group information.
+            &quot;issuerUri&quot;: &quot;A String&quot;, # URI for the OIDC provider. This should point to the level below .well-known/openid-configuration.
+            &quot;kubectlRedirectUri&quot;: &quot;A String&quot;, # Registered redirect uri to redirect users going through OAuth flow using kubectl plugin.
+            &quot;scopes&quot;: &quot;A String&quot;, # Comma-separated list of identifiers.
+            &quot;userClaim&quot;: &quot;A String&quot;, # Claim in OIDC ID token that holds username.
+            &quot;userPrefix&quot;: &quot;A String&quot;, # Prefix to prepend to user name.
+          },
+          &quot;proxy&quot;: &quot;A String&quot;, # Proxy server address to use for auth method.
+        },
+      ],
+    },
+  },
   &quot;labels&quot;: { # GCP labels for this Feature.
     &quot;a_key&quot;: &quot;A String&quot;,
   },
@@ -718,6 +826,23 @@ Returns:
       &quot;policycontroller&quot;: { # **Policy Controller**: Configuration for a single cluster. Intended to parallel the PolicyController CR. # Policy Controller spec.
         &quot;policyControllerHubConfig&quot;: { # Configuration for Policy Controller # Policy Controller configuration for the cluster.
           &quot;auditIntervalSeconds&quot;: &quot;A String&quot;, # Sets the interval for Policy Controller Audit Scans (in seconds). When set to 0, this disables audit functionality altogether.
+          &quot;constraintViolationLimit&quot;: &quot;A String&quot;, # The maximum number of audit violations to be stored in a constraint. If not set, the internal default (currently 20) will be used.
+          &quot;deploymentConfigs&quot;: { # Map of deployment configs to deployments (“admission”, “audit”, “mutation”).
+            &quot;a_key&quot;: { # Deployment-specific configuration.
+              &quot;containerResources&quot;: { # ResourceRequirements describes the compute resource requirements. # Container resource requirements.
+                &quot;limits&quot;: { # ResourceList contains container resource requirements. # Limits describes the maximum amount of compute resources allowed for use by the running container.
+                  &quot;cpu&quot;: &quot;A String&quot;, # CPU requirement expressed in Kubernetes resource units.
+                  &quot;memory&quot;: &quot;A String&quot;, # Memory requirement expressed in Kubernetes resource units.
+                },
+                &quot;requests&quot;: { # ResourceList contains container resource requirements. # Requests describes the amount of compute resources reserved for the container by the kube-scheduler.
+                  &quot;cpu&quot;: &quot;A String&quot;, # CPU requirement expressed in Kubernetes resource units.
+                  &quot;memory&quot;: &quot;A String&quot;, # Memory requirement expressed in Kubernetes resource units.
+                },
+              },
+              &quot;podAntiAffinity&quot;: True or False, # Pod anti-affinity enablement.
+              &quot;replicaCount&quot;: &quot;A String&quot;, # Pod replica count.
+            },
+          },
           &quot;exemptableNamespaces&quot;: [ # The set of namespaces that are excluded from Policy Controller checks. Namespaces do not need to currently exist on the cluster.
             &quot;A String&quot;,
           ],
@@ -729,6 +854,16 @@ Returns:
             ],
           },
           &quot;mutationEnabled&quot;: True or False, # Enables the ability to mutate resources using Policy Controller.
+          &quot;policyContent&quot;: { # PolicyContentSpec defines the user&#x27;s desired content configuration on the cluster. # Specifies the desired policy content on the cluster
+            &quot;bundles&quot;: { # map of bundle name to BundleInstallSpec. The bundle name maps to the `bundleName` key in the `policycontroller.gke.io/constraintData` annotation on a constraint.
+              &quot;a_key&quot;: { # BundleInstallSpec is the specification configuration for a single managed bundle.
+                &quot;exemptedNamespaces&quot;: [ # the set of namespaces to be exempted from the bundle
+                  &quot;A String&quot;,
+                ],
+                &quot;management&quot;: &quot;A String&quot;, # Management specifies how the bundle will be managed by the controller.
+              },
+            },
+          },
           &quot;referentialRulesEnabled&quot;: True or False, # Enables the ability to use Constraint Templates that reference to objects other than the object currently being evaluated.
           &quot;templateLibraryConfig&quot;: { # The config specifying which default library templates to install. # Configures the library templates to install along with Policy Controller.
             &quot;included&quot;: True or False, # Whether the standard template library should be installed or not.
@@ -875,6 +1010,9 @@ Returns:
             &quot;gatekeeperControllerManagerState&quot;: &quot;A String&quot;, # Status of gatekeeper-controller-manager pod.
             &quot;gatekeeperMutation&quot;: &quot;A String&quot;, # Status of the pod serving the mutation webhook.
           },
+          &quot;migration&quot;: { # State for the migration of PolicyController from ACM -&gt; PoCo Hub. # Record state of ACM -&gt; PoCo Hub migration for this feature.
+            &quot;stage&quot;: &quot;A String&quot;, # Stage of the migration.
+          },
           &quot;version&quot;: { # The build version of Gatekeeper Policy Controller is using. # The version of Gatekeeper Policy Controller deployed.
             &quot;version&quot;: &quot;A String&quot;, # The gatekeeper image tag that is composed of ACM version, git tag, build number.
           },
@@ -926,7 +1064,13 @@ Returns:
         &quot;preciseLastMeasuredClusterVcpuCapacity&quot;: 3.14, # The vCPUs capacity in the cluster according to the most recent measurement (1/1000 precision).
       },
       &quot;policycontroller&quot;: { # **Policy Controller**: State for a single cluster. # Policycontroller-specific state.
-        &quot;componentStates&quot;: { # Currently these include (also serving as map keys): 1. &quot;admission&quot; 2. &quot;audit&quot; 3. &quot;mutation&quot; 4. &quot;constraint template library&quot;
+        &quot;componentStates&quot;: { # Currently these include (also serving as map keys): 1. &quot;admission&quot; 2. &quot;audit&quot; 3. &quot;mutation&quot;
+          &quot;a_key&quot;: { # OnClusterState represents the state of a sub-component of Policy Controller.
+            &quot;details&quot;: &quot;A String&quot;, # Surface potential errors or information logs.
+            &quot;state&quot;: &quot;A String&quot;, # The lifecycle state of this component.
+          },
+        },
+        &quot;contentStates&quot;: { # The state of the template library and any bundles included in the chosen version of the manifest
           &quot;a_key&quot;: { # OnClusterState represents the state of a sub-component of Policy Controller.
             &quot;details&quot;: &quot;A String&quot;, # Surface potential errors or information logs.
             &quot;state&quot;: &quot;A String&quot;, # The lifecycle state of this component.
@@ -1051,7 +1195,7 @@ Returns:
         &quot;location&quot;: &quot;A String&quot;, # Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file.
         &quot;title&quot;: &quot;A String&quot;, # Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression.
       },
-      &quot;members&quot;: [ # Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`.
+      &quot;members&quot;: [ # Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding.
         &quot;A String&quot;,
       ],
       &quot;role&quot;: &quot;A String&quot;, # Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`.
@@ -1086,6 +1230,42 @@ Returns:
     { # Feature represents the settings and status of any Hub Feature.
       &quot;createTime&quot;: &quot;A String&quot;, # Output only. When the Feature resource was created.
       &quot;deleteTime&quot;: &quot;A String&quot;, # Output only. When the Feature resource was deleted.
+      &quot;fleetDefaultMemberConfig&quot;: { # CommonFleetDefaultMemberConfigSpec contains default configuration information for memberships of a fleet # Optional. Feature configuration applicable to all memberships of the fleet.
+        &quot;identityservice&quot;: { # **Anthos Identity Service**: Configuration for a single Membership. # Identity Service-specific spec.
+          &quot;authMethods&quot;: [ # A member may support multiple auth methods.
+            { # Configuration of an auth method for a member/cluster. Only one authentication method (e.g., OIDC and LDAP) can be set per AuthMethod.
+              &quot;azureadConfig&quot;: { # Configuration for the AzureAD Auth flow. # AzureAD specific Configuration.
+                &quot;clientId&quot;: &quot;A String&quot;, # ID for the registered client application that makes authentication requests to the Azure AD identity provider.
+                &quot;clientSecret&quot;: &quot;A String&quot;, # Input only. Unencrypted AzureAD client secret will be passed to the GKE Hub CLH.
+                &quot;encryptedClientSecret&quot;: &quot;A String&quot;, # Output only. Encrypted AzureAD client secret.
+                &quot;kubectlRedirectUri&quot;: &quot;A String&quot;, # The redirect URL that kubectl uses for authorization.
+                &quot;tenant&quot;: &quot;A String&quot;, # Kind of Azure AD account to be authenticated. Supported values are or for accounts belonging to a specific tenant.
+              },
+              &quot;googleConfig&quot;: { # Configuration for the Google Plugin Auth flow. # GoogleConfig specific configuration
+                &quot;disable&quot;: True or False, # Disable automatic configuration of Google Plugin on supported platforms.
+              },
+              &quot;name&quot;: &quot;A String&quot;, # Identifier for auth config.
+              &quot;oidcConfig&quot;: { # Configuration for OIDC Auth flow. # OIDC specific configuration.
+                &quot;certificateAuthorityData&quot;: &quot;A String&quot;, # PEM-encoded CA for OIDC provider.
+                &quot;clientId&quot;: &quot;A String&quot;, # ID for OIDC client application.
+                &quot;clientSecret&quot;: &quot;A String&quot;, # Input only. Unencrypted OIDC client secret will be passed to the GKE Hub CLH.
+                &quot;deployCloudConsoleProxy&quot;: True or False, # Flag to denote if reverse proxy is used to connect to auth provider. This flag should be set to true when provider is not reachable by Google Cloud Console.
+                &quot;enableAccessToken&quot;: True or False, # Enable access token.
+                &quot;encryptedClientSecret&quot;: &quot;A String&quot;, # Output only. Encrypted OIDC Client secret
+                &quot;extraParams&quot;: &quot;A String&quot;, # Comma-separated list of key-value pairs.
+                &quot;groupPrefix&quot;: &quot;A String&quot;, # Prefix to prepend to group name.
+                &quot;groupsClaim&quot;: &quot;A String&quot;, # Claim in OIDC ID token that holds group information.
+                &quot;issuerUri&quot;: &quot;A String&quot;, # URI for the OIDC provider. This should point to the level below .well-known/openid-configuration.
+                &quot;kubectlRedirectUri&quot;: &quot;A String&quot;, # Registered redirect uri to redirect users going through OAuth flow using kubectl plugin.
+                &quot;scopes&quot;: &quot;A String&quot;, # Comma-separated list of identifiers.
+                &quot;userClaim&quot;: &quot;A String&quot;, # Claim in OIDC ID token that holds username.
+                &quot;userPrefix&quot;: &quot;A String&quot;, # Prefix to prepend to user name.
+              },
+              &quot;proxy&quot;: &quot;A String&quot;, # Proxy server address to use for auth method.
+            },
+          ],
+        },
+      },
       &quot;labels&quot;: { # GCP labels for this Feature.
         &quot;a_key&quot;: &quot;A String&quot;,
       },
@@ -1194,6 +1374,23 @@ Returns:
           &quot;policycontroller&quot;: { # **Policy Controller**: Configuration for a single cluster. Intended to parallel the PolicyController CR. # Policy Controller spec.
             &quot;policyControllerHubConfig&quot;: { # Configuration for Policy Controller # Policy Controller configuration for the cluster.
               &quot;auditIntervalSeconds&quot;: &quot;A String&quot;, # Sets the interval for Policy Controller Audit Scans (in seconds). When set to 0, this disables audit functionality altogether.
+              &quot;constraintViolationLimit&quot;: &quot;A String&quot;, # The maximum number of audit violations to be stored in a constraint. If not set, the internal default (currently 20) will be used.
+              &quot;deploymentConfigs&quot;: { # Map of deployment configs to deployments (“admission”, “audit”, “mutation”).
+                &quot;a_key&quot;: { # Deployment-specific configuration.
+                  &quot;containerResources&quot;: { # ResourceRequirements describes the compute resource requirements. # Container resource requirements.
+                    &quot;limits&quot;: { # ResourceList contains container resource requirements. # Limits describes the maximum amount of compute resources allowed for use by the running container.
+                      &quot;cpu&quot;: &quot;A String&quot;, # CPU requirement expressed in Kubernetes resource units.
+                      &quot;memory&quot;: &quot;A String&quot;, # Memory requirement expressed in Kubernetes resource units.
+                    },
+                    &quot;requests&quot;: { # ResourceList contains container resource requirements. # Requests describes the amount of compute resources reserved for the container by the kube-scheduler.
+                      &quot;cpu&quot;: &quot;A String&quot;, # CPU requirement expressed in Kubernetes resource units.
+                      &quot;memory&quot;: &quot;A String&quot;, # Memory requirement expressed in Kubernetes resource units.
+                    },
+                  },
+                  &quot;podAntiAffinity&quot;: True or False, # Pod anti-affinity enablement.
+                  &quot;replicaCount&quot;: &quot;A String&quot;, # Pod replica count.
+                },
+              },
               &quot;exemptableNamespaces&quot;: [ # The set of namespaces that are excluded from Policy Controller checks. Namespaces do not need to currently exist on the cluster.
                 &quot;A String&quot;,
               ],
@@ -1205,6 +1402,16 @@ Returns:
                 ],
               },
               &quot;mutationEnabled&quot;: True or False, # Enables the ability to mutate resources using Policy Controller.
+              &quot;policyContent&quot;: { # PolicyContentSpec defines the user&#x27;s desired content configuration on the cluster. # Specifies the desired policy content on the cluster
+                &quot;bundles&quot;: { # map of bundle name to BundleInstallSpec. The bundle name maps to the `bundleName` key in the `policycontroller.gke.io/constraintData` annotation on a constraint.
+                  &quot;a_key&quot;: { # BundleInstallSpec is the specification configuration for a single managed bundle.
+                    &quot;exemptedNamespaces&quot;: [ # the set of namespaces to be exempted from the bundle
+                      &quot;A String&quot;,
+                    ],
+                    &quot;management&quot;: &quot;A String&quot;, # Management specifies how the bundle will be managed by the controller.
+                  },
+                },
+              },
               &quot;referentialRulesEnabled&quot;: True or False, # Enables the ability to use Constraint Templates that reference to objects other than the object currently being evaluated.
               &quot;templateLibraryConfig&quot;: { # The config specifying which default library templates to install. # Configures the library templates to install along with Policy Controller.
                 &quot;included&quot;: True or False, # Whether the standard template library should be installed or not.
@@ -1351,6 +1558,9 @@ Returns:
                 &quot;gatekeeperControllerManagerState&quot;: &quot;A String&quot;, # Status of gatekeeper-controller-manager pod.
                 &quot;gatekeeperMutation&quot;: &quot;A String&quot;, # Status of the pod serving the mutation webhook.
               },
+              &quot;migration&quot;: { # State for the migration of PolicyController from ACM -&gt; PoCo Hub. # Record state of ACM -&gt; PoCo Hub migration for this feature.
+                &quot;stage&quot;: &quot;A String&quot;, # Stage of the migration.
+              },
               &quot;version&quot;: { # The build version of Gatekeeper Policy Controller is using. # The version of Gatekeeper Policy Controller deployed.
                 &quot;version&quot;: &quot;A String&quot;, # The gatekeeper image tag that is composed of ACM version, git tag, build number.
               },
@@ -1402,7 +1612,13 @@ Returns:
             &quot;preciseLastMeasuredClusterVcpuCapacity&quot;: 3.14, # The vCPUs capacity in the cluster according to the most recent measurement (1/1000 precision).
           },
           &quot;policycontroller&quot;: { # **Policy Controller**: State for a single cluster. # Policycontroller-specific state.
-            &quot;componentStates&quot;: { # Currently these include (also serving as map keys): 1. &quot;admission&quot; 2. &quot;audit&quot; 3. &quot;mutation&quot; 4. &quot;constraint template library&quot;
+            &quot;componentStates&quot;: { # Currently these include (also serving as map keys): 1. &quot;admission&quot; 2. &quot;audit&quot; 3. &quot;mutation&quot;
+              &quot;a_key&quot;: { # OnClusterState represents the state of a sub-component of Policy Controller.
+                &quot;details&quot;: &quot;A String&quot;, # Surface potential errors or information logs.
+                &quot;state&quot;: &quot;A String&quot;, # The lifecycle state of this component.
+              },
+            },
+            &quot;contentStates&quot;: { # The state of the template library and any bundles included in the chosen version of the manifest
               &quot;a_key&quot;: { # OnClusterState represents the state of a sub-component of Policy Controller.
                 &quot;details&quot;: &quot;A String&quot;, # Surface potential errors or information logs.
                 &quot;state&quot;: &quot;A String&quot;, # The lifecycle state of this component.
@@ -1518,6 +1734,42 @@ Args:
 { # Feature represents the settings and status of any Hub Feature.
   &quot;createTime&quot;: &quot;A String&quot;, # Output only. When the Feature resource was created.
   &quot;deleteTime&quot;: &quot;A String&quot;, # Output only. When the Feature resource was deleted.
+  &quot;fleetDefaultMemberConfig&quot;: { # CommonFleetDefaultMemberConfigSpec contains default configuration information for memberships of a fleet # Optional. Feature configuration applicable to all memberships of the fleet.
+    &quot;identityservice&quot;: { # **Anthos Identity Service**: Configuration for a single Membership. # Identity Service-specific spec.
+      &quot;authMethods&quot;: [ # A member may support multiple auth methods.
+        { # Configuration of an auth method for a member/cluster. Only one authentication method (e.g., OIDC and LDAP) can be set per AuthMethod.
+          &quot;azureadConfig&quot;: { # Configuration for the AzureAD Auth flow. # AzureAD specific Configuration.
+            &quot;clientId&quot;: &quot;A String&quot;, # ID for the registered client application that makes authentication requests to the Azure AD identity provider.
+            &quot;clientSecret&quot;: &quot;A String&quot;, # Input only. Unencrypted AzureAD client secret will be passed to the GKE Hub CLH.
+            &quot;encryptedClientSecret&quot;: &quot;A String&quot;, # Output only. Encrypted AzureAD client secret.
+            &quot;kubectlRedirectUri&quot;: &quot;A String&quot;, # The redirect URL that kubectl uses for authorization.
+            &quot;tenant&quot;: &quot;A String&quot;, # Kind of Azure AD account to be authenticated. Supported values are or for accounts belonging to a specific tenant.
+          },
+          &quot;googleConfig&quot;: { # Configuration for the Google Plugin Auth flow. # GoogleConfig specific configuration
+            &quot;disable&quot;: True or False, # Disable automatic configuration of Google Plugin on supported platforms.
+          },
+          &quot;name&quot;: &quot;A String&quot;, # Identifier for auth config.
+          &quot;oidcConfig&quot;: { # Configuration for OIDC Auth flow. # OIDC specific configuration.
+            &quot;certificateAuthorityData&quot;: &quot;A String&quot;, # PEM-encoded CA for OIDC provider.
+            &quot;clientId&quot;: &quot;A String&quot;, # ID for OIDC client application.
+            &quot;clientSecret&quot;: &quot;A String&quot;, # Input only. Unencrypted OIDC client secret will be passed to the GKE Hub CLH.
+            &quot;deployCloudConsoleProxy&quot;: True or False, # Flag to denote if reverse proxy is used to connect to auth provider. This flag should be set to true when provider is not reachable by Google Cloud Console.
+            &quot;enableAccessToken&quot;: True or False, # Enable access token.
+            &quot;encryptedClientSecret&quot;: &quot;A String&quot;, # Output only. Encrypted OIDC Client secret
+            &quot;extraParams&quot;: &quot;A String&quot;, # Comma-separated list of key-value pairs.
+            &quot;groupPrefix&quot;: &quot;A String&quot;, # Prefix to prepend to group name.
+            &quot;groupsClaim&quot;: &quot;A String&quot;, # Claim in OIDC ID token that holds group information.
+            &quot;issuerUri&quot;: &quot;A String&quot;, # URI for the OIDC provider. This should point to the level below .well-known/openid-configuration.
+            &quot;kubectlRedirectUri&quot;: &quot;A String&quot;, # Registered redirect uri to redirect users going through OAuth flow using kubectl plugin.
+            &quot;scopes&quot;: &quot;A String&quot;, # Comma-separated list of identifiers.
+            &quot;userClaim&quot;: &quot;A String&quot;, # Claim in OIDC ID token that holds username.
+            &quot;userPrefix&quot;: &quot;A String&quot;, # Prefix to prepend to user name.
+          },
+          &quot;proxy&quot;: &quot;A String&quot;, # Proxy server address to use for auth method.
+        },
+      ],
+    },
+  },
   &quot;labels&quot;: { # GCP labels for this Feature.
     &quot;a_key&quot;: &quot;A String&quot;,
   },
@@ -1626,6 +1878,23 @@ Args:
       &quot;policycontroller&quot;: { # **Policy Controller**: Configuration for a single cluster. Intended to parallel the PolicyController CR. # Policy Controller spec.
         &quot;policyControllerHubConfig&quot;: { # Configuration for Policy Controller # Policy Controller configuration for the cluster.
           &quot;auditIntervalSeconds&quot;: &quot;A String&quot;, # Sets the interval for Policy Controller Audit Scans (in seconds). When set to 0, this disables audit functionality altogether.
+          &quot;constraintViolationLimit&quot;: &quot;A String&quot;, # The maximum number of audit violations to be stored in a constraint. If not set, the internal default (currently 20) will be used.
+          &quot;deploymentConfigs&quot;: { # Map of deployment configs to deployments (“admission”, “audit”, “mutation”).
+            &quot;a_key&quot;: { # Deployment-specific configuration.
+              &quot;containerResources&quot;: { # ResourceRequirements describes the compute resource requirements. # Container resource requirements.
+                &quot;limits&quot;: { # ResourceList contains container resource requirements. # Limits describes the maximum amount of compute resources allowed for use by the running container.
+                  &quot;cpu&quot;: &quot;A String&quot;, # CPU requirement expressed in Kubernetes resource units.
+                  &quot;memory&quot;: &quot;A String&quot;, # Memory requirement expressed in Kubernetes resource units.
+                },
+                &quot;requests&quot;: { # ResourceList contains container resource requirements. # Requests describes the amount of compute resources reserved for the container by the kube-scheduler.
+                  &quot;cpu&quot;: &quot;A String&quot;, # CPU requirement expressed in Kubernetes resource units.
+                  &quot;memory&quot;: &quot;A String&quot;, # Memory requirement expressed in Kubernetes resource units.
+                },
+              },
+              &quot;podAntiAffinity&quot;: True or False, # Pod anti-affinity enablement.
+              &quot;replicaCount&quot;: &quot;A String&quot;, # Pod replica count.
+            },
+          },
           &quot;exemptableNamespaces&quot;: [ # The set of namespaces that are excluded from Policy Controller checks. Namespaces do not need to currently exist on the cluster.
             &quot;A String&quot;,
           ],
@@ -1637,6 +1906,16 @@ Args:
             ],
           },
           &quot;mutationEnabled&quot;: True or False, # Enables the ability to mutate resources using Policy Controller.
+          &quot;policyContent&quot;: { # PolicyContentSpec defines the user&#x27;s desired content configuration on the cluster. # Specifies the desired policy content on the cluster
+            &quot;bundles&quot;: { # map of bundle name to BundleInstallSpec. The bundle name maps to the `bundleName` key in the `policycontroller.gke.io/constraintData` annotation on a constraint.
+              &quot;a_key&quot;: { # BundleInstallSpec is the specification configuration for a single managed bundle.
+                &quot;exemptedNamespaces&quot;: [ # the set of namespaces to be exempted from the bundle
+                  &quot;A String&quot;,
+                ],
+                &quot;management&quot;: &quot;A String&quot;, # Management specifies how the bundle will be managed by the controller.
+              },
+            },
+          },
           &quot;referentialRulesEnabled&quot;: True or False, # Enables the ability to use Constraint Templates that reference to objects other than the object currently being evaluated.
           &quot;templateLibraryConfig&quot;: { # The config specifying which default library templates to install. # Configures the library templates to install along with Policy Controller.
             &quot;included&quot;: True or False, # Whether the standard template library should be installed or not.
@@ -1783,6 +2062,9 @@ Args:
             &quot;gatekeeperControllerManagerState&quot;: &quot;A String&quot;, # Status of gatekeeper-controller-manager pod.
             &quot;gatekeeperMutation&quot;: &quot;A String&quot;, # Status of the pod serving the mutation webhook.
           },
+          &quot;migration&quot;: { # State for the migration of PolicyController from ACM -&gt; PoCo Hub. # Record state of ACM -&gt; PoCo Hub migration for this feature.
+            &quot;stage&quot;: &quot;A String&quot;, # Stage of the migration.
+          },
           &quot;version&quot;: { # The build version of Gatekeeper Policy Controller is using. # The version of Gatekeeper Policy Controller deployed.
             &quot;version&quot;: &quot;A String&quot;, # The gatekeeper image tag that is composed of ACM version, git tag, build number.
           },
@@ -1834,7 +2116,13 @@ Args:
         &quot;preciseLastMeasuredClusterVcpuCapacity&quot;: 3.14, # The vCPUs capacity in the cluster according to the most recent measurement (1/1000 precision).
       },
       &quot;policycontroller&quot;: { # **Policy Controller**: State for a single cluster. # Policycontroller-specific state.
-        &quot;componentStates&quot;: { # Currently these include (also serving as map keys): 1. &quot;admission&quot; 2. &quot;audit&quot; 3. &quot;mutation&quot; 4. &quot;constraint template library&quot;
+        &quot;componentStates&quot;: { # Currently these include (also serving as map keys): 1. &quot;admission&quot; 2. &quot;audit&quot; 3. &quot;mutation&quot;
+          &quot;a_key&quot;: { # OnClusterState represents the state of a sub-component of Policy Controller.
+            &quot;details&quot;: &quot;A String&quot;, # Surface potential errors or information logs.
+            &quot;state&quot;: &quot;A String&quot;, # The lifecycle state of this component.
+          },
+        },
+        &quot;contentStates&quot;: { # The state of the template library and any bundles included in the chosen version of the manifest
           &quot;a_key&quot;: { # OnClusterState represents the state of a sub-component of Policy Controller.
             &quot;details&quot;: &quot;A String&quot;, # Surface potential errors or information logs.
             &quot;state&quot;: &quot;A String&quot;, # The lifecycle state of this component.
@@ -1984,7 +2272,7 @@ Args:
           &quot;location&quot;: &quot;A String&quot;, # Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file.
           &quot;title&quot;: &quot;A String&quot;, # Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression.
         },
-        &quot;members&quot;: [ # Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`.
+        &quot;members&quot;: [ # Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding.
           &quot;A String&quot;,
         ],
         &quot;role&quot;: &quot;A String&quot;, # Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`.
@@ -2026,7 +2314,7 @@ Returns:
         &quot;location&quot;: &quot;A String&quot;, # Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file.
         &quot;title&quot;: &quot;A String&quot;, # Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression.
       },
-      &quot;members&quot;: [ # Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`.
+      &quot;members&quot;: [ # Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding.
         &quot;A String&quot;,
       ],
       &quot;role&quot;: &quot;A String&quot;, # Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`.
