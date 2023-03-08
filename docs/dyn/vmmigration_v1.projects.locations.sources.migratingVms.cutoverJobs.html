@@ -252,6 +252,26 @@ Args:
           },
         ],
         &quot;totalPauseDuration&quot;: &quot;A String&quot;, # The accumulated duration the replication cycle was paused.
+        &quot;warnings&quot;: [ # Output only. Warnings that occurred during the cycle.
+          { # Represents migration resource warning information that can be used with google.rpc.Status message. MigrationWarning is used to present the user with warning information in migration operations.
+            &quot;actionItem&quot;: { # Provides a localized error message that is safe to return to the user which can be attached to an RPC error. # Suggested action for solving the warning.
+              &quot;locale&quot;: &quot;A String&quot;, # The locale used following the specification defined at https://www.rfc-editor.org/rfc/bcp/bcp47.txt. Examples are: &quot;en-US&quot;, &quot;fr-CH&quot;, &quot;es-MX&quot;
+              &quot;message&quot;: &quot;A String&quot;, # The localized error message in the above locale.
+            },
+            &quot;code&quot;: &quot;A String&quot;, # The warning code.
+            &quot;helpLinks&quot;: [ # URL(s) pointing to additional information on handling the current warning.
+              { # Describes a URL link.
+                &quot;description&quot;: &quot;A String&quot;, # Describes what the link offers.
+                &quot;url&quot;: &quot;A String&quot;, # The URL of the link.
+              },
+            ],
+            &quot;warningMessage&quot;: { # Provides a localized error message that is safe to return to the user which can be attached to an RPC error. # The localized warning message.
+              &quot;locale&quot;: &quot;A String&quot;, # The locale used following the specification defined at https://www.rfc-editor.org/rfc/bcp/bcp47.txt. Examples are: &quot;en-US&quot;, &quot;fr-CH&quot;, &quot;es-MX&quot;
+              &quot;message&quot;: &quot;A String&quot;, # The localized error message in the above locale.
+            },
+            &quot;warningTime&quot;: &quot;A String&quot;, # The time the warning occurred.
+          },
+        ],
       },
       &quot;instantiatingMigratedVm&quot;: { # InstantiatingMigratedVMStep contains specific step details. # Instantiating migrated VM step.
       },
@@ -290,6 +310,26 @@ Args:
           },
         ],
         &quot;totalPauseDuration&quot;: &quot;A String&quot;, # The accumulated duration the replication cycle was paused.
+        &quot;warnings&quot;: [ # Output only. Warnings that occurred during the cycle.
+          { # Represents migration resource warning information that can be used with google.rpc.Status message. MigrationWarning is used to present the user with warning information in migration operations.
+            &quot;actionItem&quot;: { # Provides a localized error message that is safe to return to the user which can be attached to an RPC error. # Suggested action for solving the warning.
+              &quot;locale&quot;: &quot;A String&quot;, # The locale used following the specification defined at https://www.rfc-editor.org/rfc/bcp/bcp47.txt. Examples are: &quot;en-US&quot;, &quot;fr-CH&quot;, &quot;es-MX&quot;
+              &quot;message&quot;: &quot;A String&quot;, # The localized error message in the above locale.
+            },
+            &quot;code&quot;: &quot;A String&quot;, # The warning code.
+            &quot;helpLinks&quot;: [ # URL(s) pointing to additional information on handling the current warning.
+              { # Describes a URL link.
+                &quot;description&quot;: &quot;A String&quot;, # Describes what the link offers.
+                &quot;url&quot;: &quot;A String&quot;, # The URL of the link.
+              },
+            ],
+            &quot;warningMessage&quot;: { # Provides a localized error message that is safe to return to the user which can be attached to an RPC error. # The localized warning message.
+              &quot;locale&quot;: &quot;A String&quot;, # The locale used following the specification defined at https://www.rfc-editor.org/rfc/bcp/bcp47.txt. Examples are: &quot;en-US&quot;, &quot;fr-CH&quot;, &quot;es-MX&quot;
+              &quot;message&quot;: &quot;A String&quot;, # The localized error message in the above locale.
+            },
+            &quot;warningTime&quot;: &quot;A String&quot;, # The time the warning occurred.
+          },
+        ],
       },
       &quot;shuttingDownSourceVm&quot;: { # ShuttingDownSourceVMStep contains specific step details. # Shutting down VM step.
       },
@@ -299,7 +339,7 @@ Args:
 }
 
   cutoverJobId: string, Required. The cutover job identifier.
-  requestId: string, A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and t he request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
+  requestId: string, A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
   x__xgafv: string, V1 error format.
     Allowed values
       1 - v1 error format
@@ -447,6 +487,26 @@ Returns:
           },
         ],
         &quot;totalPauseDuration&quot;: &quot;A String&quot;, # The accumulated duration the replication cycle was paused.
+        &quot;warnings&quot;: [ # Output only. Warnings that occurred during the cycle.
+          { # Represents migration resource warning information that can be used with google.rpc.Status message. MigrationWarning is used to present the user with warning information in migration operations.
+            &quot;actionItem&quot;: { # Provides a localized error message that is safe to return to the user which can be attached to an RPC error. # Suggested action for solving the warning.
+              &quot;locale&quot;: &quot;A String&quot;, # The locale used following the specification defined at https://www.rfc-editor.org/rfc/bcp/bcp47.txt. Examples are: &quot;en-US&quot;, &quot;fr-CH&quot;, &quot;es-MX&quot;
+              &quot;message&quot;: &quot;A String&quot;, # The localized error message in the above locale.
+            },
+            &quot;code&quot;: &quot;A String&quot;, # The warning code.
+            &quot;helpLinks&quot;: [ # URL(s) pointing to additional information on handling the current warning.
+              { # Describes a URL link.
+                &quot;description&quot;: &quot;A String&quot;, # Describes what the link offers.
+                &quot;url&quot;: &quot;A String&quot;, # The URL of the link.
+              },
+            ],
+            &quot;warningMessage&quot;: { # Provides a localized error message that is safe to return to the user which can be attached to an RPC error. # The localized warning message.
+              &quot;locale&quot;: &quot;A String&quot;, # The locale used following the specification defined at https://www.rfc-editor.org/rfc/bcp/bcp47.txt. Examples are: &quot;en-US&quot;, &quot;fr-CH&quot;, &quot;es-MX&quot;
+              &quot;message&quot;: &quot;A String&quot;, # The localized error message in the above locale.
+            },
+            &quot;warningTime&quot;: &quot;A String&quot;, # The time the warning occurred.
+          },
+        ],
       },
       &quot;instantiatingMigratedVm&quot;: { # InstantiatingMigratedVMStep contains specific step details. # Instantiating migrated VM step.
       },
@@ -485,6 +545,26 @@ Returns:
           },
         ],
         &quot;totalPauseDuration&quot;: &quot;A String&quot;, # The accumulated duration the replication cycle was paused.
+        &quot;warnings&quot;: [ # Output only. Warnings that occurred during the cycle.
+          { # Represents migration resource warning information that can be used with google.rpc.Status message. MigrationWarning is used to present the user with warning information in migration operations.
+            &quot;actionItem&quot;: { # Provides a localized error message that is safe to return to the user which can be attached to an RPC error. # Suggested action for solving the warning.
+              &quot;locale&quot;: &quot;A String&quot;, # The locale used following the specification defined at https://www.rfc-editor.org/rfc/bcp/bcp47.txt. Examples are: &quot;en-US&quot;, &quot;fr-CH&quot;, &quot;es-MX&quot;
+              &quot;message&quot;: &quot;A String&quot;, # The localized error message in the above locale.
+            },
+            &quot;code&quot;: &quot;A String&quot;, # The warning code.
+            &quot;helpLinks&quot;: [ # URL(s) pointing to additional information on handling the current warning.
+              { # Describes a URL link.
+                &quot;description&quot;: &quot;A String&quot;, # Describes what the link offers.
+                &quot;url&quot;: &quot;A String&quot;, # The URL of the link.
+              },
+            ],
+            &quot;warningMessage&quot;: { # Provides a localized error message that is safe to return to the user which can be attached to an RPC error. # The localized warning message.
+              &quot;locale&quot;: &quot;A String&quot;, # The locale used following the specification defined at https://www.rfc-editor.org/rfc/bcp/bcp47.txt. Examples are: &quot;en-US&quot;, &quot;fr-CH&quot;, &quot;es-MX&quot;
+              &quot;message&quot;: &quot;A String&quot;, # The localized error message in the above locale.
+            },
+            &quot;warningTime&quot;: &quot;A String&quot;, # The time the warning occurred.
+          },
+        ],
       },
       &quot;shuttingDownSourceVm&quot;: { # ShuttingDownSourceVMStep contains specific step details. # Shutting down VM step.
       },
@@ -618,6 +698,26 @@ Returns:
               },
             ],
             &quot;totalPauseDuration&quot;: &quot;A String&quot;, # The accumulated duration the replication cycle was paused.
+            &quot;warnings&quot;: [ # Output only. Warnings that occurred during the cycle.
+              { # Represents migration resource warning information that can be used with google.rpc.Status message. MigrationWarning is used to present the user with warning information in migration operations.
+                &quot;actionItem&quot;: { # Provides a localized error message that is safe to return to the user which can be attached to an RPC error. # Suggested action for solving the warning.
+                  &quot;locale&quot;: &quot;A String&quot;, # The locale used following the specification defined at https://www.rfc-editor.org/rfc/bcp/bcp47.txt. Examples are: &quot;en-US&quot;, &quot;fr-CH&quot;, &quot;es-MX&quot;
+                  &quot;message&quot;: &quot;A String&quot;, # The localized error message in the above locale.
+                },
+                &quot;code&quot;: &quot;A String&quot;, # The warning code.
+                &quot;helpLinks&quot;: [ # URL(s) pointing to additional information on handling the current warning.
+                  { # Describes a URL link.
+                    &quot;description&quot;: &quot;A String&quot;, # Describes what the link offers.
+                    &quot;url&quot;: &quot;A String&quot;, # The URL of the link.
+                  },
+                ],
+                &quot;warningMessage&quot;: { # Provides a localized error message that is safe to return to the user which can be attached to an RPC error. # The localized warning message.
+                  &quot;locale&quot;: &quot;A String&quot;, # The locale used following the specification defined at https://www.rfc-editor.org/rfc/bcp/bcp47.txt. Examples are: &quot;en-US&quot;, &quot;fr-CH&quot;, &quot;es-MX&quot;
+                  &quot;message&quot;: &quot;A String&quot;, # The localized error message in the above locale.
+                },
+                &quot;warningTime&quot;: &quot;A String&quot;, # The time the warning occurred.
+              },
+            ],
           },
           &quot;instantiatingMigratedVm&quot;: { # InstantiatingMigratedVMStep contains specific step details. # Instantiating migrated VM step.
           },
@@ -656,6 +756,26 @@ Returns:
               },
             ],
             &quot;totalPauseDuration&quot;: &quot;A String&quot;, # The accumulated duration the replication cycle was paused.
+            &quot;warnings&quot;: [ # Output only. Warnings that occurred during the cycle.
+              { # Represents migration resource warning information that can be used with google.rpc.Status message. MigrationWarning is used to present the user with warning information in migration operations.
+                &quot;actionItem&quot;: { # Provides a localized error message that is safe to return to the user which can be attached to an RPC error. # Suggested action for solving the warning.
+                  &quot;locale&quot;: &quot;A String&quot;, # The locale used following the specification defined at https://www.rfc-editor.org/rfc/bcp/bcp47.txt. Examples are: &quot;en-US&quot;, &quot;fr-CH&quot;, &quot;es-MX&quot;
+                  &quot;message&quot;: &quot;A String&quot;, # The localized error message in the above locale.
+                },
+                &quot;code&quot;: &quot;A String&quot;, # The warning code.
+                &quot;helpLinks&quot;: [ # URL(s) pointing to additional information on handling the current warning.
+                  { # Describes a URL link.
+                    &quot;description&quot;: &quot;A String&quot;, # Describes what the link offers.
+                    &quot;url&quot;: &quot;A String&quot;, # The URL of the link.
+                  },
+                ],
+                &quot;warningMessage&quot;: { # Provides a localized error message that is safe to return to the user which can be attached to an RPC error. # The localized warning message.
+                  &quot;locale&quot;: &quot;A String&quot;, # The locale used following the specification defined at https://www.rfc-editor.org/rfc/bcp/bcp47.txt. Examples are: &quot;en-US&quot;, &quot;fr-CH&quot;, &quot;es-MX&quot;
+                  &quot;message&quot;: &quot;A String&quot;, # The localized error message in the above locale.
+                },
+                &quot;warningTime&quot;: &quot;A String&quot;, # The time the warning occurred.
+              },
+            ],
           },
           &quot;shuttingDownSourceVm&quot;: { # ShuttingDownSourceVMStep contains specific step details. # Shutting down VM step.
           },

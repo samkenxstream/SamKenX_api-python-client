@@ -75,13 +75,18 @@ h1, h2, h3 {
 <h1><a href="gkehub_v1.html">GKE Hub API</a> . <a href="gkehub_v1.projects.html">projects</a> . <a href="gkehub_v1.projects.locations.html">locations</a> . <a href="gkehub_v1.projects.locations.memberships.html">memberships</a></h1>
 <h2>Instance Methods</h2>
 <p class="toc_element">
+  <code><a href="gkehub_v1.projects.locations.memberships.bindings.html">bindings()</a></code>
+</p>
+<p class="firstline">Returns the bindings Resource.</p>
+
+<p class="toc_element">
   <code><a href="#close">close()</a></code></p>
 <p class="firstline">Close httplib2 connections.</p>
 <p class="toc_element">
   <code><a href="#create">create(parent, body=None, membershipId=None, requestId=None, x__xgafv=None)</a></code></p>
 <p class="firstline">Creates a new Membership. **This is currently only supported for GKE clusters on Google Cloud**. To register other clusters, follow the instructions at https://cloud.google.com/anthos/multicluster-management/connect/registering-a-cluster.</p>
 <p class="toc_element">
-  <code><a href="#delete">delete(name, requestId=None, x__xgafv=None)</a></code></p>
+  <code><a href="#delete">delete(name, force=None, requestId=None, x__xgafv=None)</a></code></p>
 <p class="firstline">Removes a Membership. **This is currently only supported for GKE clusters on Google Cloud**. To unregister other clusters, follow the instructions at https://cloud.google.com/anthos/multicluster-management/connect/unregistering-a-cluster.</p>
 <p class="toc_element">
   <code><a href="#generateConnectManifest">generateConnectManifest(name, imagePullSecretContent=None, isUpgrade=None, namespace=None, proxy=None, registry=None, version=None, x__xgafv=None)</a></code></p>
@@ -143,6 +148,7 @@ Args:
       &quot;clusterMissing&quot;: True or False, # Output only. If cluster_missing is set then it denotes that the GKE cluster no longer exists in the GKE Control Plane.
       &quot;resourceLink&quot;: &quot;A String&quot;, # Immutable. Self-link of the GCP resource for the GKE cluster. For example: //container.googleapis.com/projects/my-project/locations/us-west1-a/clusters/my-cluster Zonal clusters are also supported.
     },
+    &quot;googleManaged&quot;: True or False, # Output only. Whether the lifecycle of this membership is managed by a google cluster platform service.
     &quot;kubernetesMetadata&quot;: { # KubernetesMetadata provides informational metadata for Memberships representing Kubernetes clusters. # Output only. Useful Kubernetes-specific metadata.
       &quot;kubernetesApiServerVersion&quot;: &quot;A String&quot;, # Output only. Kubernetes API server version string as reported by `/version`.
       &quot;memoryMb&quot;: 42, # Output only. The total memory capacity as reported by the sum of all Kubernetes nodes resources, defined in MB.
@@ -227,11 +233,12 @@ Returns:
 </div>
 
 <div class="method">
-    <code class="details" id="delete">delete(name, requestId=None, x__xgafv=None)</code>
+    <code class="details" id="delete">delete(name, force=None, requestId=None, x__xgafv=None)</code>
   <pre>Removes a Membership. **This is currently only supported for GKE clusters on Google Cloud**. To unregister other clusters, follow the instructions at https://cloud.google.com/anthos/multicluster-management/connect/unregistering-a-cluster.
 
 Args:
   name: string, Required. The Membership resource name in the format `projects/*/locations/*/memberships/*`. (required)
+  force: boolean, Optional. If set to true, any subresource from this Membership will also be deleted. Otherwise, the request will only work if the Membership has no subresource.
   requestId: string, Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).
   x__xgafv: string, V1 error format.
     Allowed values
@@ -330,6 +337,7 @@ Returns:
       &quot;clusterMissing&quot;: True or False, # Output only. If cluster_missing is set then it denotes that the GKE cluster no longer exists in the GKE Control Plane.
       &quot;resourceLink&quot;: &quot;A String&quot;, # Immutable. Self-link of the GCP resource for the GKE cluster. For example: //container.googleapis.com/projects/my-project/locations/us-west1-a/clusters/my-cluster Zonal clusters are also supported.
     },
+    &quot;googleManaged&quot;: True or False, # Output only. Whether the lifecycle of this membership is managed by a google cluster platform service.
     &quot;kubernetesMetadata&quot;: { # KubernetesMetadata provides informational metadata for Memberships representing Kubernetes clusters. # Output only. Useful Kubernetes-specific metadata.
       &quot;kubernetesApiServerVersion&quot;: &quot;A String&quot;, # Output only. Kubernetes API server version string as reported by `/version`.
       &quot;memoryMb&quot;: 42, # Output only. The total memory capacity as reported by the sum of all Kubernetes nodes resources, defined in MB.
@@ -473,6 +481,7 @@ Returns:
           &quot;clusterMissing&quot;: True or False, # Output only. If cluster_missing is set then it denotes that the GKE cluster no longer exists in the GKE Control Plane.
           &quot;resourceLink&quot;: &quot;A String&quot;, # Immutable. Self-link of the GCP resource for the GKE cluster. For example: //container.googleapis.com/projects/my-project/locations/us-west1-a/clusters/my-cluster Zonal clusters are also supported.
         },
+        &quot;googleManaged&quot;: True or False, # Output only. Whether the lifecycle of this membership is managed by a google cluster platform service.
         &quot;kubernetesMetadata&quot;: { # KubernetesMetadata provides informational metadata for Memberships representing Kubernetes clusters. # Output only. Useful Kubernetes-specific metadata.
           &quot;kubernetesApiServerVersion&quot;: &quot;A String&quot;, # Output only. Kubernetes API server version string as reported by `/version`.
           &quot;memoryMb&quot;: 42, # Output only. The total memory capacity as reported by the sum of all Kubernetes nodes resources, defined in MB.
@@ -575,6 +584,7 @@ Args:
       &quot;clusterMissing&quot;: True or False, # Output only. If cluster_missing is set then it denotes that the GKE cluster no longer exists in the GKE Control Plane.
       &quot;resourceLink&quot;: &quot;A String&quot;, # Immutable. Self-link of the GCP resource for the GKE cluster. For example: //container.googleapis.com/projects/my-project/locations/us-west1-a/clusters/my-cluster Zonal clusters are also supported.
     },
+    &quot;googleManaged&quot;: True or False, # Output only. Whether the lifecycle of this membership is managed by a google cluster platform service.
     &quot;kubernetesMetadata&quot;: { # KubernetesMetadata provides informational metadata for Memberships representing Kubernetes clusters. # Output only. Useful Kubernetes-specific metadata.
       &quot;kubernetesApiServerVersion&quot;: &quot;A String&quot;, # Output only. Kubernetes API server version string as reported by `/version`.
       &quot;memoryMb&quot;: 42, # Output only. The total memory capacity as reported by the sum of all Kubernetes nodes resources, defined in MB.

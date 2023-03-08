@@ -181,7 +181,7 @@ Args:
       },
       &quot;spec&quot;: { # ExecutionSpec describes how the execution will look. # Required. ExecutionSpec holds the desired configuration for executions of this job.
         &quot;parallelism&quot;: 42, # Optional. Specifies the maximum desired number of tasks the execution should run at given time. Must be &lt;= task_count. When the job is run, if this field is 0 or unset, the maximum possible value will be used for that execution. The actual number of tasks running in steady state will be less than this number when there are fewer tasks waiting to be completed, i.e. when the work left to do is less than max parallelism.
-        &quot;taskCount&quot;: 42, # Optional. Specifies the desired number of tasks the execution should run. Setting to 1 means that parallelism is limited to 1 and the success of that task signals the success of the execution.
+        &quot;taskCount&quot;: 42, # Optional. Specifies the desired number of tasks the execution should run. Setting to 1 means that parallelism is limited to 1 and the success of that task signals the success of the execution. Defaults to 1.
         &quot;template&quot;: { # TaskTemplateSpec describes the data a task should have when created from a template. # Optional. The template used to create tasks for this execution.
           &quot;spec&quot;: { # TaskSpec is a description of a task. # Optional. Specification of the desired behavior of the task. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
             &quot;containers&quot;: [ # Optional. List of containers belonging to the task. We disallow a number of fields on this Container. Only a single container may be provided.
@@ -257,6 +257,7 @@ Args:
                       },
                     ],
                     &quot;path&quot;: &quot;A String&quot;, # Path to access on the HTTP server.
+                    &quot;port&quot;: 42, # Port number to access on the container. Number must be in the range 1 to 65535.
                     &quot;scheme&quot;: &quot;A String&quot;, # Not supported by Cloud Run.
                   },
                   &quot;initialDelaySeconds&quot;: 42, # Number of seconds after the container has started before the probe is initiated. Defaults to 0 seconds. Minimum value is 0. Maximum value for liveness probe is 3600. Maximum value for startup probe is 240. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
@@ -296,6 +297,7 @@ Args:
                       },
                     ],
                     &quot;path&quot;: &quot;A String&quot;, # Path to access on the HTTP server.
+                    &quot;port&quot;: 42, # Port number to access on the container. Number must be in the range 1 to 65535.
                     &quot;scheme&quot;: &quot;A String&quot;, # Not supported by Cloud Run.
                   },
                   &quot;initialDelaySeconds&quot;: 42, # Number of seconds after the container has started before the probe is initiated. Defaults to 0 seconds. Minimum value is 0. Maximum value for liveness probe is 3600. Maximum value for startup probe is 240. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
@@ -338,6 +340,7 @@ Args:
                       },
                     ],
                     &quot;path&quot;: &quot;A String&quot;, # Path to access on the HTTP server.
+                    &quot;port&quot;: 42, # Port number to access on the container. Number must be in the range 1 to 65535.
                     &quot;scheme&quot;: &quot;A String&quot;, # Not supported by Cloud Run.
                   },
                   &quot;initialDelaySeconds&quot;: 42, # Number of seconds after the container has started before the probe is initiated. Defaults to 0 seconds. Minimum value is 0. Maximum value for liveness probe is 3600. Maximum value for startup probe is 240. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
@@ -362,9 +365,9 @@ Args:
                 &quot;workingDir&quot;: &quot;A String&quot;, # Container&#x27;s working directory. If not specified, the container runtime&#x27;s default will be used, which might be configured in the container image.
               },
             ],
-            &quot;maxRetries&quot;: 42, # Optional. Number of retries allowed per task, before marking this job failed.
+            &quot;maxRetries&quot;: 42, # Optional. Number of retries allowed per task, before marking this job failed. Defaults to 3.
             &quot;serviceAccountName&quot;: &quot;A String&quot;, # Optional. Email address of the IAM service account associated with the task of a job execution. The service account represents the identity of the running task, and determines what permissions the task has. If not provided, the task will use the project&#x27;s default service account.
-            &quot;timeoutSeconds&quot;: &quot;A String&quot;, # Optional. Duration in seconds the task may be active before the system will actively try to mark it failed and kill associated containers. This applies per attempt of a task, meaning each retry can run for the full timeout.
+            &quot;timeoutSeconds&quot;: &quot;A String&quot;, # Optional. Duration in seconds the task may be active before the system will actively try to mark it failed and kill associated containers. This applies per attempt of a task, meaning each retry can run for the full timeout. Defaults to 600 seconds.
             &quot;volumes&quot;: [ # Optional. List of volumes that can be mounted by containers belonging to the task. More info: https://kubernetes.io/docs/concepts/storage/volumes
               { # Volume represents a named volume in a container.
                 &quot;configMap&quot;: { # Not supported by Cloud Run. Adapts a ConfigMap into a volume. The contents of the target ConfigMap&#x27;s Data field will be presented in a volume as files using the keys in the Data field as the file names, unless the items element is populated with specific mappings of keys to paths. # Not supported in Cloud Run.
@@ -499,7 +502,7 @@ Returns:
       },
       &quot;spec&quot;: { # ExecutionSpec describes how the execution will look. # Required. ExecutionSpec holds the desired configuration for executions of this job.
         &quot;parallelism&quot;: 42, # Optional. Specifies the maximum desired number of tasks the execution should run at given time. Must be &lt;= task_count. When the job is run, if this field is 0 or unset, the maximum possible value will be used for that execution. The actual number of tasks running in steady state will be less than this number when there are fewer tasks waiting to be completed, i.e. when the work left to do is less than max parallelism.
-        &quot;taskCount&quot;: 42, # Optional. Specifies the desired number of tasks the execution should run. Setting to 1 means that parallelism is limited to 1 and the success of that task signals the success of the execution.
+        &quot;taskCount&quot;: 42, # Optional. Specifies the desired number of tasks the execution should run. Setting to 1 means that parallelism is limited to 1 and the success of that task signals the success of the execution. Defaults to 1.
         &quot;template&quot;: { # TaskTemplateSpec describes the data a task should have when created from a template. # Optional. The template used to create tasks for this execution.
           &quot;spec&quot;: { # TaskSpec is a description of a task. # Optional. Specification of the desired behavior of the task. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
             &quot;containers&quot;: [ # Optional. List of containers belonging to the task. We disallow a number of fields on this Container. Only a single container may be provided.
@@ -575,6 +578,7 @@ Returns:
                       },
                     ],
                     &quot;path&quot;: &quot;A String&quot;, # Path to access on the HTTP server.
+                    &quot;port&quot;: 42, # Port number to access on the container. Number must be in the range 1 to 65535.
                     &quot;scheme&quot;: &quot;A String&quot;, # Not supported by Cloud Run.
                   },
                   &quot;initialDelaySeconds&quot;: 42, # Number of seconds after the container has started before the probe is initiated. Defaults to 0 seconds. Minimum value is 0. Maximum value for liveness probe is 3600. Maximum value for startup probe is 240. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
@@ -614,6 +618,7 @@ Returns:
                       },
                     ],
                     &quot;path&quot;: &quot;A String&quot;, # Path to access on the HTTP server.
+                    &quot;port&quot;: 42, # Port number to access on the container. Number must be in the range 1 to 65535.
                     &quot;scheme&quot;: &quot;A String&quot;, # Not supported by Cloud Run.
                   },
                   &quot;initialDelaySeconds&quot;: 42, # Number of seconds after the container has started before the probe is initiated. Defaults to 0 seconds. Minimum value is 0. Maximum value for liveness probe is 3600. Maximum value for startup probe is 240. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
@@ -656,6 +661,7 @@ Returns:
                       },
                     ],
                     &quot;path&quot;: &quot;A String&quot;, # Path to access on the HTTP server.
+                    &quot;port&quot;: 42, # Port number to access on the container. Number must be in the range 1 to 65535.
                     &quot;scheme&quot;: &quot;A String&quot;, # Not supported by Cloud Run.
                   },
                   &quot;initialDelaySeconds&quot;: 42, # Number of seconds after the container has started before the probe is initiated. Defaults to 0 seconds. Minimum value is 0. Maximum value for liveness probe is 3600. Maximum value for startup probe is 240. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
@@ -680,9 +686,9 @@ Returns:
                 &quot;workingDir&quot;: &quot;A String&quot;, # Container&#x27;s working directory. If not specified, the container runtime&#x27;s default will be used, which might be configured in the container image.
               },
             ],
-            &quot;maxRetries&quot;: 42, # Optional. Number of retries allowed per task, before marking this job failed.
+            &quot;maxRetries&quot;: 42, # Optional. Number of retries allowed per task, before marking this job failed. Defaults to 3.
             &quot;serviceAccountName&quot;: &quot;A String&quot;, # Optional. Email address of the IAM service account associated with the task of a job execution. The service account represents the identity of the running task, and determines what permissions the task has. If not provided, the task will use the project&#x27;s default service account.
-            &quot;timeoutSeconds&quot;: &quot;A String&quot;, # Optional. Duration in seconds the task may be active before the system will actively try to mark it failed and kill associated containers. This applies per attempt of a task, meaning each retry can run for the full timeout.
+            &quot;timeoutSeconds&quot;: &quot;A String&quot;, # Optional. Duration in seconds the task may be active before the system will actively try to mark it failed and kill associated containers. This applies per attempt of a task, meaning each retry can run for the full timeout. Defaults to 600 seconds.
             &quot;volumes&quot;: [ # Optional. List of volumes that can be mounted by containers belonging to the task. More info: https://kubernetes.io/docs/concepts/storage/volumes
               { # Volume represents a named volume in a container.
                 &quot;configMap&quot;: { # Not supported by Cloud Run. Adapts a ConfigMap into a volume. The contents of the target ConfigMap&#x27;s Data field will be presented in a volume as files using the keys in the Data field as the file names, unless the items element is populated with specific mappings of keys to paths. # Not supported in Cloud Run.
@@ -868,7 +874,7 @@ Returns:
       },
       &quot;spec&quot;: { # ExecutionSpec describes how the execution will look. # Required. ExecutionSpec holds the desired configuration for executions of this job.
         &quot;parallelism&quot;: 42, # Optional. Specifies the maximum desired number of tasks the execution should run at given time. Must be &lt;= task_count. When the job is run, if this field is 0 or unset, the maximum possible value will be used for that execution. The actual number of tasks running in steady state will be less than this number when there are fewer tasks waiting to be completed, i.e. when the work left to do is less than max parallelism.
-        &quot;taskCount&quot;: 42, # Optional. Specifies the desired number of tasks the execution should run. Setting to 1 means that parallelism is limited to 1 and the success of that task signals the success of the execution.
+        &quot;taskCount&quot;: 42, # Optional. Specifies the desired number of tasks the execution should run. Setting to 1 means that parallelism is limited to 1 and the success of that task signals the success of the execution. Defaults to 1.
         &quot;template&quot;: { # TaskTemplateSpec describes the data a task should have when created from a template. # Optional. The template used to create tasks for this execution.
           &quot;spec&quot;: { # TaskSpec is a description of a task. # Optional. Specification of the desired behavior of the task. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
             &quot;containers&quot;: [ # Optional. List of containers belonging to the task. We disallow a number of fields on this Container. Only a single container may be provided.
@@ -944,6 +950,7 @@ Returns:
                       },
                     ],
                     &quot;path&quot;: &quot;A String&quot;, # Path to access on the HTTP server.
+                    &quot;port&quot;: 42, # Port number to access on the container. Number must be in the range 1 to 65535.
                     &quot;scheme&quot;: &quot;A String&quot;, # Not supported by Cloud Run.
                   },
                   &quot;initialDelaySeconds&quot;: 42, # Number of seconds after the container has started before the probe is initiated. Defaults to 0 seconds. Minimum value is 0. Maximum value for liveness probe is 3600. Maximum value for startup probe is 240. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
@@ -983,6 +990,7 @@ Returns:
                       },
                     ],
                     &quot;path&quot;: &quot;A String&quot;, # Path to access on the HTTP server.
+                    &quot;port&quot;: 42, # Port number to access on the container. Number must be in the range 1 to 65535.
                     &quot;scheme&quot;: &quot;A String&quot;, # Not supported by Cloud Run.
                   },
                   &quot;initialDelaySeconds&quot;: 42, # Number of seconds after the container has started before the probe is initiated. Defaults to 0 seconds. Minimum value is 0. Maximum value for liveness probe is 3600. Maximum value for startup probe is 240. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
@@ -1025,6 +1033,7 @@ Returns:
                       },
                     ],
                     &quot;path&quot;: &quot;A String&quot;, # Path to access on the HTTP server.
+                    &quot;port&quot;: 42, # Port number to access on the container. Number must be in the range 1 to 65535.
                     &quot;scheme&quot;: &quot;A String&quot;, # Not supported by Cloud Run.
                   },
                   &quot;initialDelaySeconds&quot;: 42, # Number of seconds after the container has started before the probe is initiated. Defaults to 0 seconds. Minimum value is 0. Maximum value for liveness probe is 3600. Maximum value for startup probe is 240. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
@@ -1049,9 +1058,9 @@ Returns:
                 &quot;workingDir&quot;: &quot;A String&quot;, # Container&#x27;s working directory. If not specified, the container runtime&#x27;s default will be used, which might be configured in the container image.
               },
             ],
-            &quot;maxRetries&quot;: 42, # Optional. Number of retries allowed per task, before marking this job failed.
+            &quot;maxRetries&quot;: 42, # Optional. Number of retries allowed per task, before marking this job failed. Defaults to 3.
             &quot;serviceAccountName&quot;: &quot;A String&quot;, # Optional. Email address of the IAM service account associated with the task of a job execution. The service account represents the identity of the running task, and determines what permissions the task has. If not provided, the task will use the project&#x27;s default service account.
-            &quot;timeoutSeconds&quot;: &quot;A String&quot;, # Optional. Duration in seconds the task may be active before the system will actively try to mark it failed and kill associated containers. This applies per attempt of a task, meaning each retry can run for the full timeout.
+            &quot;timeoutSeconds&quot;: &quot;A String&quot;, # Optional. Duration in seconds the task may be active before the system will actively try to mark it failed and kill associated containers. This applies per attempt of a task, meaning each retry can run for the full timeout. Defaults to 600 seconds.
             &quot;volumes&quot;: [ # Optional. List of volumes that can be mounted by containers belonging to the task. More info: https://kubernetes.io/docs/concepts/storage/volumes
               { # Volume represents a named volume in a container.
                 &quot;configMap&quot;: { # Not supported by Cloud Run. Adapts a ConfigMap into a volume. The contents of the target ConfigMap&#x27;s Data field will be presented in a volume as files using the keys in the Data field as the file names, unless the items element is populated with specific mappings of keys to paths. # Not supported in Cloud Run.
@@ -1203,7 +1212,7 @@ Returns:
           },
           &quot;spec&quot;: { # ExecutionSpec describes how the execution will look. # Required. ExecutionSpec holds the desired configuration for executions of this job.
             &quot;parallelism&quot;: 42, # Optional. Specifies the maximum desired number of tasks the execution should run at given time. Must be &lt;= task_count. When the job is run, if this field is 0 or unset, the maximum possible value will be used for that execution. The actual number of tasks running in steady state will be less than this number when there are fewer tasks waiting to be completed, i.e. when the work left to do is less than max parallelism.
-            &quot;taskCount&quot;: 42, # Optional. Specifies the desired number of tasks the execution should run. Setting to 1 means that parallelism is limited to 1 and the success of that task signals the success of the execution.
+            &quot;taskCount&quot;: 42, # Optional. Specifies the desired number of tasks the execution should run. Setting to 1 means that parallelism is limited to 1 and the success of that task signals the success of the execution. Defaults to 1.
             &quot;template&quot;: { # TaskTemplateSpec describes the data a task should have when created from a template. # Optional. The template used to create tasks for this execution.
               &quot;spec&quot;: { # TaskSpec is a description of a task. # Optional. Specification of the desired behavior of the task. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
                 &quot;containers&quot;: [ # Optional. List of containers belonging to the task. We disallow a number of fields on this Container. Only a single container may be provided.
@@ -1279,6 +1288,7 @@ Returns:
                           },
                         ],
                         &quot;path&quot;: &quot;A String&quot;, # Path to access on the HTTP server.
+                        &quot;port&quot;: 42, # Port number to access on the container. Number must be in the range 1 to 65535.
                         &quot;scheme&quot;: &quot;A String&quot;, # Not supported by Cloud Run.
                       },
                       &quot;initialDelaySeconds&quot;: 42, # Number of seconds after the container has started before the probe is initiated. Defaults to 0 seconds. Minimum value is 0. Maximum value for liveness probe is 3600. Maximum value for startup probe is 240. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
@@ -1318,6 +1328,7 @@ Returns:
                           },
                         ],
                         &quot;path&quot;: &quot;A String&quot;, # Path to access on the HTTP server.
+                        &quot;port&quot;: 42, # Port number to access on the container. Number must be in the range 1 to 65535.
                         &quot;scheme&quot;: &quot;A String&quot;, # Not supported by Cloud Run.
                       },
                       &quot;initialDelaySeconds&quot;: 42, # Number of seconds after the container has started before the probe is initiated. Defaults to 0 seconds. Minimum value is 0. Maximum value for liveness probe is 3600. Maximum value for startup probe is 240. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
@@ -1360,6 +1371,7 @@ Returns:
                           },
                         ],
                         &quot;path&quot;: &quot;A String&quot;, # Path to access on the HTTP server.
+                        &quot;port&quot;: 42, # Port number to access on the container. Number must be in the range 1 to 65535.
                         &quot;scheme&quot;: &quot;A String&quot;, # Not supported by Cloud Run.
                       },
                       &quot;initialDelaySeconds&quot;: 42, # Number of seconds after the container has started before the probe is initiated. Defaults to 0 seconds. Minimum value is 0. Maximum value for liveness probe is 3600. Maximum value for startup probe is 240. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
@@ -1384,9 +1396,9 @@ Returns:
                     &quot;workingDir&quot;: &quot;A String&quot;, # Container&#x27;s working directory. If not specified, the container runtime&#x27;s default will be used, which might be configured in the container image.
                   },
                 ],
-                &quot;maxRetries&quot;: 42, # Optional. Number of retries allowed per task, before marking this job failed.
+                &quot;maxRetries&quot;: 42, # Optional. Number of retries allowed per task, before marking this job failed. Defaults to 3.
                 &quot;serviceAccountName&quot;: &quot;A String&quot;, # Optional. Email address of the IAM service account associated with the task of a job execution. The service account represents the identity of the running task, and determines what permissions the task has. If not provided, the task will use the project&#x27;s default service account.
-                &quot;timeoutSeconds&quot;: &quot;A String&quot;, # Optional. Duration in seconds the task may be active before the system will actively try to mark it failed and kill associated containers. This applies per attempt of a task, meaning each retry can run for the full timeout.
+                &quot;timeoutSeconds&quot;: &quot;A String&quot;, # Optional. Duration in seconds the task may be active before the system will actively try to mark it failed and kill associated containers. This applies per attempt of a task, meaning each retry can run for the full timeout. Defaults to 600 seconds.
                 &quot;volumes&quot;: [ # Optional. List of volumes that can be mounted by containers belonging to the task. More info: https://kubernetes.io/docs/concepts/storage/volumes
                   { # Volume represents a named volume in a container.
                     &quot;configMap&quot;: { # Not supported by Cloud Run. Adapts a ConfigMap into a volume. The contents of the target ConfigMap&#x27;s Data field will be presented in a volume as files using the keys in the Data field as the file names, unless the items element is populated with specific mappings of keys to paths. # Not supported in Cloud Run.
@@ -1534,7 +1546,7 @@ Args:
       },
       &quot;spec&quot;: { # ExecutionSpec describes how the execution will look. # Required. ExecutionSpec holds the desired configuration for executions of this job.
         &quot;parallelism&quot;: 42, # Optional. Specifies the maximum desired number of tasks the execution should run at given time. Must be &lt;= task_count. When the job is run, if this field is 0 or unset, the maximum possible value will be used for that execution. The actual number of tasks running in steady state will be less than this number when there are fewer tasks waiting to be completed, i.e. when the work left to do is less than max parallelism.
-        &quot;taskCount&quot;: 42, # Optional. Specifies the desired number of tasks the execution should run. Setting to 1 means that parallelism is limited to 1 and the success of that task signals the success of the execution.
+        &quot;taskCount&quot;: 42, # Optional. Specifies the desired number of tasks the execution should run. Setting to 1 means that parallelism is limited to 1 and the success of that task signals the success of the execution. Defaults to 1.
         &quot;template&quot;: { # TaskTemplateSpec describes the data a task should have when created from a template. # Optional. The template used to create tasks for this execution.
           &quot;spec&quot;: { # TaskSpec is a description of a task. # Optional. Specification of the desired behavior of the task. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
             &quot;containers&quot;: [ # Optional. List of containers belonging to the task. We disallow a number of fields on this Container. Only a single container may be provided.
@@ -1610,6 +1622,7 @@ Args:
                       },
                     ],
                     &quot;path&quot;: &quot;A String&quot;, # Path to access on the HTTP server.
+                    &quot;port&quot;: 42, # Port number to access on the container. Number must be in the range 1 to 65535.
                     &quot;scheme&quot;: &quot;A String&quot;, # Not supported by Cloud Run.
                   },
                   &quot;initialDelaySeconds&quot;: 42, # Number of seconds after the container has started before the probe is initiated. Defaults to 0 seconds. Minimum value is 0. Maximum value for liveness probe is 3600. Maximum value for startup probe is 240. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
@@ -1649,6 +1662,7 @@ Args:
                       },
                     ],
                     &quot;path&quot;: &quot;A String&quot;, # Path to access on the HTTP server.
+                    &quot;port&quot;: 42, # Port number to access on the container. Number must be in the range 1 to 65535.
                     &quot;scheme&quot;: &quot;A String&quot;, # Not supported by Cloud Run.
                   },
                   &quot;initialDelaySeconds&quot;: 42, # Number of seconds after the container has started before the probe is initiated. Defaults to 0 seconds. Minimum value is 0. Maximum value for liveness probe is 3600. Maximum value for startup probe is 240. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
@@ -1691,6 +1705,7 @@ Args:
                       },
                     ],
                     &quot;path&quot;: &quot;A String&quot;, # Path to access on the HTTP server.
+                    &quot;port&quot;: 42, # Port number to access on the container. Number must be in the range 1 to 65535.
                     &quot;scheme&quot;: &quot;A String&quot;, # Not supported by Cloud Run.
                   },
                   &quot;initialDelaySeconds&quot;: 42, # Number of seconds after the container has started before the probe is initiated. Defaults to 0 seconds. Minimum value is 0. Maximum value for liveness probe is 3600. Maximum value for startup probe is 240. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
@@ -1715,9 +1730,9 @@ Args:
                 &quot;workingDir&quot;: &quot;A String&quot;, # Container&#x27;s working directory. If not specified, the container runtime&#x27;s default will be used, which might be configured in the container image.
               },
             ],
-            &quot;maxRetries&quot;: 42, # Optional. Number of retries allowed per task, before marking this job failed.
+            &quot;maxRetries&quot;: 42, # Optional. Number of retries allowed per task, before marking this job failed. Defaults to 3.
             &quot;serviceAccountName&quot;: &quot;A String&quot;, # Optional. Email address of the IAM service account associated with the task of a job execution. The service account represents the identity of the running task, and determines what permissions the task has. If not provided, the task will use the project&#x27;s default service account.
-            &quot;timeoutSeconds&quot;: &quot;A String&quot;, # Optional. Duration in seconds the task may be active before the system will actively try to mark it failed and kill associated containers. This applies per attempt of a task, meaning each retry can run for the full timeout.
+            &quot;timeoutSeconds&quot;: &quot;A String&quot;, # Optional. Duration in seconds the task may be active before the system will actively try to mark it failed and kill associated containers. This applies per attempt of a task, meaning each retry can run for the full timeout. Defaults to 600 seconds.
             &quot;volumes&quot;: [ # Optional. List of volumes that can be mounted by containers belonging to the task. More info: https://kubernetes.io/docs/concepts/storage/volumes
               { # Volume represents a named volume in a container.
                 &quot;configMap&quot;: { # Not supported by Cloud Run. Adapts a ConfigMap into a volume. The contents of the target ConfigMap&#x27;s Data field will be presented in a volume as files using the keys in the Data field as the file names, unless the items element is populated with specific mappings of keys to paths. # Not supported in Cloud Run.
@@ -1852,7 +1867,7 @@ Returns:
       },
       &quot;spec&quot;: { # ExecutionSpec describes how the execution will look. # Required. ExecutionSpec holds the desired configuration for executions of this job.
         &quot;parallelism&quot;: 42, # Optional. Specifies the maximum desired number of tasks the execution should run at given time. Must be &lt;= task_count. When the job is run, if this field is 0 or unset, the maximum possible value will be used for that execution. The actual number of tasks running in steady state will be less than this number when there are fewer tasks waiting to be completed, i.e. when the work left to do is less than max parallelism.
-        &quot;taskCount&quot;: 42, # Optional. Specifies the desired number of tasks the execution should run. Setting to 1 means that parallelism is limited to 1 and the success of that task signals the success of the execution.
+        &quot;taskCount&quot;: 42, # Optional. Specifies the desired number of tasks the execution should run. Setting to 1 means that parallelism is limited to 1 and the success of that task signals the success of the execution. Defaults to 1.
         &quot;template&quot;: { # TaskTemplateSpec describes the data a task should have when created from a template. # Optional. The template used to create tasks for this execution.
           &quot;spec&quot;: { # TaskSpec is a description of a task. # Optional. Specification of the desired behavior of the task. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
             &quot;containers&quot;: [ # Optional. List of containers belonging to the task. We disallow a number of fields on this Container. Only a single container may be provided.
@@ -1928,6 +1943,7 @@ Returns:
                       },
                     ],
                     &quot;path&quot;: &quot;A String&quot;, # Path to access on the HTTP server.
+                    &quot;port&quot;: 42, # Port number to access on the container. Number must be in the range 1 to 65535.
                     &quot;scheme&quot;: &quot;A String&quot;, # Not supported by Cloud Run.
                   },
                   &quot;initialDelaySeconds&quot;: 42, # Number of seconds after the container has started before the probe is initiated. Defaults to 0 seconds. Minimum value is 0. Maximum value for liveness probe is 3600. Maximum value for startup probe is 240. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
@@ -1967,6 +1983,7 @@ Returns:
                       },
                     ],
                     &quot;path&quot;: &quot;A String&quot;, # Path to access on the HTTP server.
+                    &quot;port&quot;: 42, # Port number to access on the container. Number must be in the range 1 to 65535.
                     &quot;scheme&quot;: &quot;A String&quot;, # Not supported by Cloud Run.
                   },
                   &quot;initialDelaySeconds&quot;: 42, # Number of seconds after the container has started before the probe is initiated. Defaults to 0 seconds. Minimum value is 0. Maximum value for liveness probe is 3600. Maximum value for startup probe is 240. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
@@ -2009,6 +2026,7 @@ Returns:
                       },
                     ],
                     &quot;path&quot;: &quot;A String&quot;, # Path to access on the HTTP server.
+                    &quot;port&quot;: 42, # Port number to access on the container. Number must be in the range 1 to 65535.
                     &quot;scheme&quot;: &quot;A String&quot;, # Not supported by Cloud Run.
                   },
                   &quot;initialDelaySeconds&quot;: 42, # Number of seconds after the container has started before the probe is initiated. Defaults to 0 seconds. Minimum value is 0. Maximum value for liveness probe is 3600. Maximum value for startup probe is 240. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
@@ -2033,9 +2051,9 @@ Returns:
                 &quot;workingDir&quot;: &quot;A String&quot;, # Container&#x27;s working directory. If not specified, the container runtime&#x27;s default will be used, which might be configured in the container image.
               },
             ],
-            &quot;maxRetries&quot;: 42, # Optional. Number of retries allowed per task, before marking this job failed.
+            &quot;maxRetries&quot;: 42, # Optional. Number of retries allowed per task, before marking this job failed. Defaults to 3.
             &quot;serviceAccountName&quot;: &quot;A String&quot;, # Optional. Email address of the IAM service account associated with the task of a job execution. The service account represents the identity of the running task, and determines what permissions the task has. If not provided, the task will use the project&#x27;s default service account.
-            &quot;timeoutSeconds&quot;: &quot;A String&quot;, # Optional. Duration in seconds the task may be active before the system will actively try to mark it failed and kill associated containers. This applies per attempt of a task, meaning each retry can run for the full timeout.
+            &quot;timeoutSeconds&quot;: &quot;A String&quot;, # Optional. Duration in seconds the task may be active before the system will actively try to mark it failed and kill associated containers. This applies per attempt of a task, meaning each retry can run for the full timeout. Defaults to 600 seconds.
             &quot;volumes&quot;: [ # Optional. List of volumes that can be mounted by containers belonging to the task. More info: https://kubernetes.io/docs/concepts/storage/volumes
               { # Volume represents a named volume in a container.
                 &quot;configMap&quot;: { # Not supported by Cloud Run. Adapts a ConfigMap into a volume. The contents of the target ConfigMap&#x27;s Data field will be presented in a volume as files using the keys in the Data field as the file names, unless the items element is populated with specific mappings of keys to paths. # Not supported in Cloud Run.
@@ -2149,7 +2167,7 @@ Returns:
   },
   &quot;spec&quot;: { # ExecutionSpec describes how the execution will look. # Optional. Specification of the desired behavior of an execution. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
     &quot;parallelism&quot;: 42, # Optional. Specifies the maximum desired number of tasks the execution should run at given time. Must be &lt;= task_count. When the job is run, if this field is 0 or unset, the maximum possible value will be used for that execution. The actual number of tasks running in steady state will be less than this number when there are fewer tasks waiting to be completed, i.e. when the work left to do is less than max parallelism.
-    &quot;taskCount&quot;: 42, # Optional. Specifies the desired number of tasks the execution should run. Setting to 1 means that parallelism is limited to 1 and the success of that task signals the success of the execution.
+    &quot;taskCount&quot;: 42, # Optional. Specifies the desired number of tasks the execution should run. Setting to 1 means that parallelism is limited to 1 and the success of that task signals the success of the execution. Defaults to 1.
     &quot;template&quot;: { # TaskTemplateSpec describes the data a task should have when created from a template. # Optional. The template used to create tasks for this execution.
       &quot;spec&quot;: { # TaskSpec is a description of a task. # Optional. Specification of the desired behavior of the task. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
         &quot;containers&quot;: [ # Optional. List of containers belonging to the task. We disallow a number of fields on this Container. Only a single container may be provided.
@@ -2225,6 +2243,7 @@ Returns:
                   },
                 ],
                 &quot;path&quot;: &quot;A String&quot;, # Path to access on the HTTP server.
+                &quot;port&quot;: 42, # Port number to access on the container. Number must be in the range 1 to 65535.
                 &quot;scheme&quot;: &quot;A String&quot;, # Not supported by Cloud Run.
               },
               &quot;initialDelaySeconds&quot;: 42, # Number of seconds after the container has started before the probe is initiated. Defaults to 0 seconds. Minimum value is 0. Maximum value for liveness probe is 3600. Maximum value for startup probe is 240. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
@@ -2264,6 +2283,7 @@ Returns:
                   },
                 ],
                 &quot;path&quot;: &quot;A String&quot;, # Path to access on the HTTP server.
+                &quot;port&quot;: 42, # Port number to access on the container. Number must be in the range 1 to 65535.
                 &quot;scheme&quot;: &quot;A String&quot;, # Not supported by Cloud Run.
               },
               &quot;initialDelaySeconds&quot;: 42, # Number of seconds after the container has started before the probe is initiated. Defaults to 0 seconds. Minimum value is 0. Maximum value for liveness probe is 3600. Maximum value for startup probe is 240. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
@@ -2306,6 +2326,7 @@ Returns:
                   },
                 ],
                 &quot;path&quot;: &quot;A String&quot;, # Path to access on the HTTP server.
+                &quot;port&quot;: 42, # Port number to access on the container. Number must be in the range 1 to 65535.
                 &quot;scheme&quot;: &quot;A String&quot;, # Not supported by Cloud Run.
               },
               &quot;initialDelaySeconds&quot;: 42, # Number of seconds after the container has started before the probe is initiated. Defaults to 0 seconds. Minimum value is 0. Maximum value for liveness probe is 3600. Maximum value for startup probe is 240. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
@@ -2330,9 +2351,9 @@ Returns:
             &quot;workingDir&quot;: &quot;A String&quot;, # Container&#x27;s working directory. If not specified, the container runtime&#x27;s default will be used, which might be configured in the container image.
           },
         ],
-        &quot;maxRetries&quot;: 42, # Optional. Number of retries allowed per task, before marking this job failed.
+        &quot;maxRetries&quot;: 42, # Optional. Number of retries allowed per task, before marking this job failed. Defaults to 3.
         &quot;serviceAccountName&quot;: &quot;A String&quot;, # Optional. Email address of the IAM service account associated with the task of a job execution. The service account represents the identity of the running task, and determines what permissions the task has. If not provided, the task will use the project&#x27;s default service account.
-        &quot;timeoutSeconds&quot;: &quot;A String&quot;, # Optional. Duration in seconds the task may be active before the system will actively try to mark it failed and kill associated containers. This applies per attempt of a task, meaning each retry can run for the full timeout.
+        &quot;timeoutSeconds&quot;: &quot;A String&quot;, # Optional. Duration in seconds the task may be active before the system will actively try to mark it failed and kill associated containers. This applies per attempt of a task, meaning each retry can run for the full timeout. Defaults to 600 seconds.
         &quot;volumes&quot;: [ # Optional. List of volumes that can be mounted by containers belonging to the task. More info: https://kubernetes.io/docs/concepts/storage/volumes
           { # Volume represents a named volume in a container.
             &quot;configMap&quot;: { # Not supported by Cloud Run. Adapts a ConfigMap into a volume. The contents of the target ConfigMap&#x27;s Data field will be presented in a volume as files using the keys in the Data field as the file names, unless the items element is populated with specific mappings of keys to paths. # Not supported in Cloud Run.
